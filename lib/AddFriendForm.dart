@@ -102,7 +102,7 @@ class _AddFriendState extends State<AddFriend> {
                     borderRadius: BorderRadius.all(Radius.circular(15.0))
                   ),
                   child: Text(
-                    'Submit',
+                    'AddFriend',
                     style: TextStyle(
                       color: Colors.blue,
                       fontSize: 16,

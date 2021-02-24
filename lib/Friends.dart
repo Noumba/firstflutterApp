@@ -21,7 +21,6 @@ class _FriendsPageState extends State<FriendsPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(onPressed: (){
           Navigator.pushNamed(context, '/add_friend');
-
         },
           isExtended: true,
           backgroundColor: Colors.pink,

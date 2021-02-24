@@ -6,6 +6,7 @@ import 'package:my_first_flutter_app/Friends.dart';
 import 'package:my_first_flutter_app/About.dart';
 import 'package:my_first_flutter_app/AddFriendForm.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
+import 'package:my_first_flutter_app/AddProductForm.dart';
 
 void main() => runApp(MaterialApp(
       theme: new ThemeData(
@@ -17,6 +18,7 @@ void main() => runApp(MaterialApp(
         '/friends': (context) => FriendsPage(),
         '/about': (context) => AboutUs(),
         '/add_friend': (context) => AddFriend(),
+        '/add_product': (context) => AddProduct(),
       },
     ));
 
@@ -290,6 +292,15 @@ class _ProductListState extends State<ProductList>
         centerTitle: true,
         elevation: 0,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          Navigator.pushNamed(context, '/add_product');
+        },
+        label: Text('Add Product'),
+        backgroundColor: Colors.pink,
+        icon: Icon(Icons.add,
+          size: 25,
+          color: Colors.white,),),
       body: new Container(
           padding: new EdgeInsets.all(16.0),
           child: new FutureBuilder<List<ProductCard>>(
@@ -299,18 +310,38 @@ class _ProductListState extends State<ProductList>
                 return new ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
-                      return new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           new Image(image: new AssetImage('asset/' + snapshot.data[index].image),
                           height: 100,
                           width: 100,),
-                          new Text(snapshot.data[index].name,
+                          new Expanded(
+                            child: new Container(
+                              color: Colors.white38,
+                              padding: EdgeInsets.all(5.0),
+                              child: new Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                 new Text(
+                                   snapshot.data[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(snapshot.data[index].description),
+                                  Text('Price:' + snapshot.data[index].price.toString()),
+                                  RatingBox(),
+                                ],
+                              ),
+                            ),
+                          ),
+                          /*new Text(snapshot.data[index].name,
                               style: new TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0)),
                           new Text(snapshot.data[index].description,
                               style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0)),
+                                  fontWeight: FontWeight.bold, fontSize: 18.0))*/
                           new Divider()
                         ],
                       );
@@ -354,7 +385,7 @@ class MyAnimatedWidget extends StatelessWidget {
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCard {
   final int id;
   final String name;
   final String description;
@@ -382,7 +413,7 @@ class ProductCard extends StatelessWidget {
         'image': image,
       };
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5.0),
@@ -430,7 +461,7 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 }
 
 /*class MyPopUP extends StatelessWidget {
