@@ -305,17 +305,18 @@ class _ProductListState extends State<ProductList>
           padding: new EdgeInsets.all(16.0),
           child: new FutureBuilder<List<ProductCard>>(
             future: dbHelper.getAllProducts(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
+            builder: (context, products) {
+              if (products.hasData) {
                 return new ListView.builder(
-                    itemCount: snapshot.data.length,
+                    itemCount: products.data.length,
                     itemBuilder: (context, index) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          new Image(image: new AssetImage('asset/' + snapshot.data[index].image),
+                          new Image(image: new AssetImage('asset/' + products.data[index].image),
                           height: 100,
-                          width: 100,),
+                          width: 100,
+                          fit: BoxFit.fill,),
                           new Expanded(
                             child: new Container(
                               color: Colors.white38,
@@ -324,13 +325,13 @@ class _ProductListState extends State<ProductList>
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                  new Text(
-                                   snapshot.data[index].name,
+                                   products.data[index].name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(snapshot.data[index].description),
-                                  Text('Price:' + snapshot.data[index].price.toString()),
+                                  Text(products.data[index].description),
+                                  Text('Price:' + products.data[index].price.toString()),
                                   RatingBox(),
                                 ],
                               ),
