@@ -21,6 +21,20 @@ class _AddProductState extends State<AddProduct> {
   final _descriptionController = TextEditingController();
 
 
+  @override
+  /*void initState() {
+    // TODO: implement initState
+    super.initState();
+     /*_nameController = TextEditingController();
+     _priceController = TextEditingController();
+     _imageController = TextEditingController();
+     _descriptionController = TextEditingController();*/
+    _nameController.text = name;
+    _priceController.text = price.toString();
+    _imageController.text = image;
+    _descriptionController.text = description;
+  }*/
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +61,7 @@ class _AddProductState extends State<AddProduct> {
                     if (value.isEmpty) {
                       return 'Product name is Required';
                     }
-                    return value;
+                    return null;
                   },
                   onSaved: (String value) {
                     name = value;
@@ -81,7 +95,7 @@ class _AddProductState extends State<AddProduct> {
                     if (value.isEmpty) {
                       return 'Image is required';
                     }
-                    return value;
+                    return null;
                   },
                   onSaved: (String value) {
                     image = value;
@@ -109,7 +123,7 @@ class _AddProductState extends State<AddProduct> {
                     if (value.isEmpty) {
                       return 'Description is Required';
                     }
-                    return description;
+                    return null;
                   },
                 ),
                 SizedBox(
@@ -122,22 +136,19 @@ class _AddProductState extends State<AddProduct> {
                   padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
                   child: FlatButton(
                     onPressed: () {
-                      if (!_formkey.currentState.validate()) {
-                        return 'Failed';
-                      }else {
-                        _formkey.currentState.save();
-                        ProductCard product = ProductCard(
-                            7, name, description, price, image);
-                        SQLiteDbProvider().insert(product);
-                        _nameController.text = product.name;
-                        _priceController.text = product.price.toString();
-                        _imageController.text = product.image;
-                        _descriptionController.text = product.description;
+                        if (_formkey.currentState.validate()) {
+                          _nameController.text = name;
+                          _priceController.text = price.toString();
+                          _imageController.text = image;
+                          _descriptionController.text = description;
+                          _formkey.currentState.save();
+                          debugPrint(price.toString());
+                          ProductCard product = ProductCard(price, name, description, price, image);
+                          SQLiteDbProvider().insert(product);
+                          Navigator.pop(context);
+                        }
 
-                        Navigator.pop(context);
-                      }
-
-
+                      /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/
                     },
                     child: Text('ADD'),
                     padding: EdgeInsets.all(5.0),

@@ -146,8 +146,8 @@ class _NinjaIDState extends State<NinjaID> {
             children: [
               Center(
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('asset/pic1.jpg'),
-                  radius: 50.0,
+                  backgroundImage: AssetImage('asset/pic2.jpg'),
+                  radius: 80.0,
                 ),
               ),
               Divider(
@@ -274,7 +274,6 @@ class _ProductListState extends State<ProductList>
     controller.forward();
     dbHelper = SQLiteDbProvider();
     products = refreshProductList();
-    print(products);
   }
 
   refreshProductList() {
@@ -310,41 +309,45 @@ class _ProductListState extends State<ProductList>
                 return new ListView.builder(
                     itemCount: products.data.length,
                     itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          new Image(image: new AssetImage('asset/' + products.data[index].image),
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.fill,),
-                          new Expanded(
-                            child: new Container(
-                              color: Colors.white38,
-                              padding: EdgeInsets.all(5.0),
-                              child: new Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                 new Text(
-                                   products.data[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                      return Card(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                           new Container(
+                            child: new Image(image: new ExactAssetImage('asset/' + products.data[index].image),
+                            height: 120,
+                            width: 110,
+                            fit: BoxFit.cover,
+                            ),),
+                            new Expanded(
+                              child: new Container(
+                                color: Colors.white38,
+                                padding: EdgeInsets.all(5.0),
+                                child: new Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                   new Text(
+                                     products.data[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  Text(products.data[index].description),
-                                  Text('Price:' + products.data[index].price.toString()),
-                                  RatingBox(),
-                                ],
+                                    Text(products.data[index].description),
+                                    Text('Price:' + products.data[index].price.toString()),
+                                    RatingBox(),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          /*new Text(snapshot.data[index].name,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0)),
-                          new Text(snapshot.data[index].description,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0))*/
-                          new Divider()
-                        ],
+                            /*new Text(snapshot.data[index].name,
+                                style: new TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18.0)),
+                            new Text(snapshot.data[index].description,
+                                style: new TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18.0))*/
+                            new Divider()
+                          ],
+                        ),
                       );
                     });
               }

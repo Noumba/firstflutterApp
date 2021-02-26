@@ -135,8 +135,9 @@ class SQLiteDbProvider {
         "INSERT Into Product (id, name, description, price, image)"
         " VALUES (?, ?, ?, ?, ?)",
         [id, product.name, product.description, product.price, product.image]);
-
     return result;
+
+
   }
 
   update(ProductCard product) async {
