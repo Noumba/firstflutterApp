@@ -13,6 +13,7 @@ class AboutUs extends StatelessWidget {
         children: <Widget>[
           Image(
             image: AssetImage('asset/nkolb.jpg'),
+            fit: BoxFit.cover,
           ),
           SizedBox(
             height: 10,
@@ -362,14 +363,14 @@ class AboutUs extends StatelessWidget {
                     Image(
                       image: AssetImage('asset/pic1.jpg'),
                       width: 130,
-                      height: 80,
-                      fit: BoxFit.fill,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
                     Image(
                       image: AssetImage('asset/pic2.jpg'),
                       width: 130,
-                      height: 80,
-                      fit: BoxFit.fill,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
                   ],
                 ),

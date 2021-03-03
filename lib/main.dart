@@ -13,8 +13,8 @@ void main() => runApp(MaterialApp(
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context) => NinjaID(),
-        '/item': (context) => ProductList(),
+        '/': (context) => ProductList(),
+        '/ninja': (context) => NinjaID(),
         '/friends': (context) => FriendsPage(),
         '/about': (context) => AboutUs(),
         '/add_friend': (context) => AddFriend(),
@@ -64,26 +64,46 @@ class _NinjaIDState extends State<NinjaID> {
           child: ListView(
             children: <Widget>[
               DrawerHeader(
+                padding: EdgeInsets.fromLTRB(25.0, 40.0, 25.0, 10.0),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text(
-                  'Drawer Header',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      child: Icon(
+                        Icons.person,
+                        size: 35.0,
+                      ),
+                      radius: 30.0,
+                    ),
+                    Text(
+                      'Name',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
-                leading: FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    color: Colors.grey[200],
-                    minWidth: 150.0,
-                    highlightColor: Colors.blue,
-                    child: Text('Home')),
+                leading: Row(
+                  children: [
+                    Icon(
+                      Icons.person_pin,
+                      color: Colors.lightBlue,
+                    ),
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/ninja');
+                        },
+                        color: Colors.white,
+                        minWidth: 150.0,
+                        highlightColor: Colors.blue,
+                        child: Text('Profile')),
+                  ],
+                ),
               ),
               ListTile(
                 leading: FlatButton(
@@ -230,12 +250,12 @@ class _NinjaIDState extends State<NinjaID> {
               SizedBox(
                 height: 15,
               ),
-              FlatButton(
+              /*FlatButton(
                   color: Colors.blue,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/item');
+                    Navigator.pushNamed(context, '');
                   },
-                  child: Text('Items list'))
+                  child: Text('Items list'))*/
             ],
           ),
         ),
@@ -282,24 +302,167 @@ class _ProductListState extends State<ProductList>
     });
   }
 
+  _refreshAfterAdd() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                _refreshAfterAdd();
+              }),
+        ],
         backgroundColor: Colors.blue[900],
         title: Text('Product List'),
         centerTitle: true,
         elevation: 0,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){
+      drawer: Container(
+        color: Colors.blue,
+        width: 220,
+        height: 560,
+        /*decoration: BoxDecoration(
+          color: Colors.transparent,
+
+          backgroundBlendMode: BlendMode.screen,
+        ),*/
+
+        child: Drawer(
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DrawerHeader(
+                  padding: EdgeInsets.fromLTRB(25.0, 40.0, 25.0, 10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Icon(
+                          Icons.person,
+                          size: 35.0,
+                        ),
+                        radius: 30.0,
+                      ),
+                      Text(
+                        'Name',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Icon(
+                          Icons.person_pin,
+                          color: Colors.lightBlue,
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Icon(
+                          Icons.people,
+                          color: Colors.lightBlue,
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Icon(
+                          Icons.description,
+                          color: Colors.lightBlue,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Icon(
+                          Icons.mail,
+                          color: Colors.lightBlue,
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.0,
+                  ),
+                  Column(
+                    children: [
+                      OutlineButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/ninja');
+                          },
+                          color: Colors.white,
+                          /*minWidth: 170.0,*/
+                          borderSide: BorderSide(),
+                          highlightColor: Colors.transparent,
+                          child: Text('Profile')),
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/friends');
+                          },
+                          color: Colors.white,
+                          minWidth: 170.0,
+                          highlightColor: Colors.blue,
+                          child: Text('Friends')),
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/about');
+                          },
+                          color: Colors.white,
+                          minWidth: 170.0,
+                          highlightColor: Colors.blue,
+                          child: Text('About')),
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '');
+                          },
+                          color: Colors.white,
+                          minWidth: 170.0,
+                          highlightColor: Colors.blue,
+                          child: Text('Contact us')),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
           Navigator.pushNamed(context, '/add_product');
         },
-        label: Text('Add Product'),
         backgroundColor: Colors.pink,
-        icon: Icon(Icons.add,
+        child: Icon(
+          Icons.add,
           size: 25,
-          color: Colors.white,),),
+          color: Colors.white,
+        ),
+      ),
       body: new Container(
           padding: new EdgeInsets.all(16.0),
           child: new FutureBuilder<List<ProductCard>>(
@@ -309,44 +472,90 @@ class _ProductListState extends State<ProductList>
                 return new ListView.builder(
                     itemCount: products.data.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                           new Container(
-                            child: new Image(image: new ExactAssetImage('asset/' + products.data[index].image),
-                            height: 120,
-                            width: 110,
-                            fit: BoxFit.cover,
-                            ),),
-                            new Expanded(
-                              child: new Container(
-                                color: Colors.white38,
-                                padding: EdgeInsets.all(5.0),
-                                child: new Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                   new Text(
-                                     products.data[index].name,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(products.data[index].description),
-                                    Text('Price:' + products.data[index].price.toString()),
-                                    RatingBox(),
-                                  ],
+                      return Container(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductPage(
+                                        products.data[index].name,
+                                        products.data[index].description,
+                                        products.data[index].price,
+                                        products.data[index].image)));
+                          },
+                          child: Card(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                new Container(
+                                  child: new Image(
+                                    image: new ExactAssetImage(
+                                        'asset/' + products.data[index].image),
+                                    height: 120,
+                                    width: 110,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                new Expanded(
+                                  child: new Container(
+                                    color: Colors.white38,
+                                    padding: EdgeInsets.all(5.0),
+                                    child: new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.fromLTRB(
+                                              0.0, 5.0, 0.0, 5.0),
+                                          width: 150,
+                                          child: new Text(
+                                            products.data[index].name,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.fromLTRB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          width: 150,
+                                          child: new Text(
+                                            products.data[index].description,
+                                            maxLines: 4,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 3.0,
+                                        ),
+                                        new Text(
+                                          'Price: ' +
+                                              products.data[index].price
+                                                  .toString(),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              30.0, 0.0, 0.0, 0.0),
+                                          child: new RatingBox(),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                /*new Text(snapshot.data[index].name,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 18.0)),
+                                new Text(snapshot.data[index].description,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 18.0))*/
+                                new Divider()
+                              ],
                             ),
-                            /*new Text(snapshot.data[index].name,
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18.0)),
-                            new Text(snapshot.data[index].description,
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18.0))*/
-                            new Divider()
-                          ],
+                          ),
                         ),
                       );
                     });
@@ -611,70 +820,69 @@ class _RatingBoxState extends State<RatingBox> {
   @override
   Widget build(BuildContext context) {
     print(_rating);
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(0),
-            child: IconButton(
-              icon: (_rating >= 1
-                  ? Icon(
-                      Icons.star,
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.star_border,
-                      size: 20,
-                    )),
-              onPressed: setStateAsOne,
-              color: Colors.red,
-              iconSize: 20,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          width: 20,
+          child: IconButton(
+            icon: (_rating >= 1
+                ? Icon(
+                    Icons.star,
+                    size: 20,
+                  )
+                : Icon(
+                    Icons.star_border,
+                    size: 20,
+                  )),
+            onPressed: setStateAsOne,
+            color: Colors.red,
+            iconSize: 20,
           ),
-          Container(
-            child: IconButton(
-              icon: (_rating >= 2
-                  ? Icon(
-                      Icons.star,
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.star_border,
-                      size: 20,
-                    )),
-              onPressed: setStateAsTwo,
-              color: Colors.red,
-              iconSize: 20,
-            ),
+        ),
+        Container(
+          width: 20,
+          child: IconButton(
+            icon: (_rating >= 2
+                ? Icon(
+                    Icons.star,
+                    size: 20,
+                  )
+                : Icon(
+                    Icons.star_border,
+                    size: 20,
+                  )),
+            onPressed: setStateAsTwo,
+            color: Colors.red,
+            iconSize: 20,
           ),
-          Container(
-            child: IconButton(
-              icon: (_rating >= 3
-                  ? Icon(
-                      Icons.star,
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.star_border,
-                      size: 20,
-                    )),
-              onPressed: setStateAsThree,
-              color: Colors.red,
-              iconSize: 20,
-            ),
+        ),
+        Container(
+          width: 20,
+          child: IconButton(
+            icon: (_rating >= 3
+                ? Icon(
+                    Icons.star,
+                    size: 20,
+                  )
+                : Icon(
+                    Icons.star_border,
+                    size: 20,
+                  )),
+            onPressed: setStateAsThree,
+            color: Colors.red,
+            iconSize: 20,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
 class ProductPage extends StatelessWidget {
-  ProductPage(this.id, this.name, this.description, this.price, this.image);
-  final int id;
+  ProductPage(this.name, this.description, this.price, this.image);
   final String name;
   final String description;
   final int price;
@@ -688,46 +896,54 @@ class ProductPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(0),
-          child: ListView(
-            /*crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,*/
-            children: <Widget>[
-              Image(
-                image: AssetImage('asset/' + this.image),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    /*mainAxisAlignment: MainAxisAlignment.start,*/
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        this.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(this.description),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text('Price: ' + this.price.toString()),
-                      RatingBox(),
-                    ],
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        children: <Widget>[
+          Image(
+            image: AssetImage(
+              'asset/' + this.image,
+            ),
+            height: 320,
+            width: 350,
+            fit: BoxFit.cover,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+               /*mainAxisAlignment: MainAxisAlignment.start,*/
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(height: 5.0,),
+                Divider(
+                  height: 10,
+                  color: Colors.green,
+                  indent: 10,
+                  endIndent: 10,
+                  thickness: 2,
+                ),
+                SizedBox(height: 5.0,),
+                Text(
+                  this.name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Text(this.description),
+                SizedBox(
+                  height: 10,
+                ),
+                Text('Price: ' + this.price.toString()),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(200.0, 30.0, 0.0, 0.0),
+                  child: RatingBox(),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

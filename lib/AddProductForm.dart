@@ -137,15 +137,19 @@ class _AddProductState extends State<AddProduct> {
                   child: FlatButton(
                     onPressed: () {
                         if (_formkey.currentState.validate()) {
-                          _nameController.text = name;
-                          _priceController.text = price.toString();
-                          _imageController.text = image;
-                          _descriptionController.text = description;
+
+                           name = _nameController.text;
+                           price = int.parse(_priceController.text);
+                           image = _imageController.text;
+                           description = _descriptionController.text;
                           _formkey.currentState.save();
                           debugPrint(price.toString());
-                          ProductCard product = ProductCard(price, name, description, price, image);
-                          SQLiteDbProvider().insert(product);
-                          Navigator.pop(context);
+                          ProductCard product = ProductCard(2, name, description, price, image);
+                          try {
+                            SQLiteDbProvider().insert(product);
+                          } catch (e){print(e);}
+
+                           Navigator.pop(context);
                         }
 
                       /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/

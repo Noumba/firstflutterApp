@@ -70,7 +70,7 @@ class SQLiteDbProvider {
           [
             4,
             "Tablet",
-            "Laptop is most productive development tool",
+            "Laptop is most productive development tool Laptop is most productive development tool",
             1500,
             "phone.png"
           ]);
@@ -102,7 +102,7 @@ class SQLiteDbProvider {
     final db = await database;
 
     List<Map> results = await db.query("Product",
-        columns: ProductCard.columns, orderBy: "id ASC");
+        columns: ProductCard.columns, orderBy: "id DESC");
 
     List<ProductCard> products = new List();
     results.forEach((result) {
@@ -136,7 +136,6 @@ class SQLiteDbProvider {
         " VALUES (?, ?, ?, ?, ?)",
         [id, product.name, product.description, product.price, product.image]);
     return result;
-
 
   }
 
