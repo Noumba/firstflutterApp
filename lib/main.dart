@@ -363,7 +363,7 @@ class _ProductListState extends State<ProductList>
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -411,39 +411,42 @@ class _ProductListState extends State<ProductList>
                   ),
                   Column(
                     children: [
-                      OutlineButton(
+                      FlatButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/ninja');
                           },
-                          color: Colors.white,
-                          /*minWidth: 170.0,*/
-                          borderSide: BorderSide(),
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0),
+                          color: Colors.transparent,
+                          minWidth: 170.0,
                           highlightColor: Colors.transparent,
-                          child: Text('Profile')),
+                          child: Container(child: Text('Profile'))),
                       FlatButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/friends');
                           },
-                          color: Colors.white,
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0),
+                          color: Colors.transparent,
                           minWidth: 170.0,
                           highlightColor: Colors.blue,
-                          child: Text('Friends')),
+                          child: Container(child: Text('Friends'))),
                       FlatButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/about');
                           },
-                          color: Colors.white,
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0),
+                          color: Colors.transparent,
                           minWidth: 170.0,
                           highlightColor: Colors.blue,
-                          child: Text('About')),
+                          child: Container(child: Text('About'))),
                       FlatButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '');
                           },
-                          color: Colors.white,
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0),
+                          color: Colors.transparent,
                           minWidth: 170.0,
                           highlightColor: Colors.blue,
-                          child: Text('Contact us')),
+                          child: Container(child: Text('Contact us'))),
                     ],
                   ),
                 ],

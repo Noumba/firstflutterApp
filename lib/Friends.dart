@@ -19,13 +19,12 @@ class _FriendsPageState extends State<FriendsPage> {
           elevation: 0.0,
           backgroundColor: Colors.blue,
         ),
-        floatingActionButton: FloatingActionButton.extended(onPressed: (){
+        floatingActionButton: FloatingActionButton(onPressed: (){
           Navigator.pushNamed(context, '/add_friend');
         },
           isExtended: true,
           backgroundColor: Colors.pink,
-          label: Text('Add Friend'),
-          icon: Icon(Icons.add,
+          child: Icon(Icons.add,
           size: 25,
           color: Colors.white,),
         ),
@@ -33,36 +32,20 @@ class _FriendsPageState extends State<FriendsPage> {
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: [
-            Container(
-              padding: EdgeInsets.all(5.0),
-              color: Colors.white,
-              child: Container(
-                child: Column(children: <Widget>[
-                  Container(
-                    height: 40,
-                    /*margin: EdgeInsets.all(5.0),*/
-                    padding: EdgeInsets.all(5.0),
-                    color: Colors.blue[50],
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                              height: 30,
-                              color: Colors.white,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'search friend',
-                                  hintStyle: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              )),
-                        ),
-                        Icon(Icons.search)
-                      ],
-                    ),
-                  ),
-                ]),
+            TextFormField(
+              decoration: InputDecoration(
+                hintText: 'search friend',
+                hintStyle: TextStyle(
+                  color: Colors.red,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(35.0),
+                  borderSide: BorderSide(
+                    style: BorderStyle.solid,
+                    color: Colors.green,
+                  )
+                ),
+                suffixIcon: Icon(Icons.search),
               ),
             ),
             FriendCard(name: 'Numba Emmanuel', image: 'pic1.jpg'),
