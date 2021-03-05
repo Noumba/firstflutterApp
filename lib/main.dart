@@ -307,8 +307,144 @@ class _ProductListState extends State<ProductList>
     setState(() {});
   }
 
+  Widget _bigDisplay(){
+    return new Container(
+        padding: new EdgeInsets.all(16.0),
+        child: new FutureBuilder<List<ProductCard>>(
+          future: dbHelper.getAllProducts(),
+          builder: (context, products) {
+            if (products.hasData) {
+              return new GridView.builder(
+                  itemCount: products.data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductPage(
+                                      products.data[index].name,
+                                      products.data[index].description,
+                                      products.data[index].price,
+                                      products.data[index].image)));
+                        },
+                        child: Card(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                child: new Container(
+                                  child: new Image(
+                                    image: new ExactAssetImage(
+                                        'asset/' + products.data[index].image),
+                                    height: 120,
+                                    width: 150,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              new Flexible(
+                                child: new Container(
+                                  color: Colors.white38,
+                                  height: 150,
+                                  padding: EdgeInsets.all(5.0),
+                                  child: new ListView(
+                                    padding: EdgeInsets.only(left: 9.0),
+                                    /*mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.start,*/
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0.0, 5.0, 0.0, 5.0),
+                                        width: 150,
+                                        child: new Text(
+                                          products.data[index].name,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        width: 150,
+                                        child: new Text(
+                                          products.data[index].description,
+                                          maxLines: 1,
+                                          softWrap: true,
+                                          textWidthBasis: TextWidthBasis.longestLine,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Colors.black54
+                                          ),
+
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(0.0, 2.0, 50, 0.0),
+                                        child: Container(
+                                          width: 100.0,
+                                          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                                          color: Colors.transparent,
+                                          child: new Text(
+                                            'US \$: ' +
+                                                products.data[index].price
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black45,
+                                            ), textAlign: TextAlign.left,),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            30.0, 0.0, 0.0, 0.0),
+                                        child: new RatingBox(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              /*new Text(snapshot.data[index].name,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 18.0)),
+                                new Text(snapshot.data[index].description,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 18.0))*/
+                              new Divider()
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+            }
+            return new Container(
+              alignment: AlignmentDirectional.center,
+              child: new CircularProgressIndicator(),
+            );
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -318,7 +454,7 @@ class _ProductListState extends State<ProductList>
                 _refreshAfterAdd();
               }),
         ],
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.pink[300],
         title: Text('Product List'),
         centerTitle: true,
         elevation: 0,
@@ -356,7 +492,7 @@ class _ProductListState extends State<ProductList>
                         'Name',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -460,14 +596,14 @@ class _ProductListState extends State<ProductList>
         onPressed: () {
           Navigator.pushNamed(context, '/add_product');
         },
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.pink[300],
         child: Icon(
           Icons.add,
           size: 25,
           color: Colors.white,
         ),
       ),
-      body: new Container(
+      body: (_width < 500)? new Container(
           padding: new EdgeInsets.all(16.0),
           child: new FutureBuilder<List<ProductCard>>(
             future: dbHelper.getAllProducts(),
@@ -530,18 +666,33 @@ class _ProductListState extends State<ProductList>
                                           width: 150,
                                           child: new Text(
                                             products.data[index].description,
-                                            maxLines: 4,
+                                            maxLines: 1,
+                                            softWrap: true,
+                                            textWidthBasis: TextWidthBasis.longestLine,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.black54
+                                            ),
+
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 3.0,
+                                          height: 8.0,
                                         ),
-                                        Container(
-                                          color: Colors.green[100],
-                                          child: new Text(
-                                            'Price: ' +
-                                                products.data[index].price
-                                                    .toString(),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0.0, 2.0, 50, 0.0),
+                                          child: Container(
+                                            width: 100.0,
+                                            padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                                            color: Colors.transparent,
+                                            child: new Text(
+                                              'US \$: ' +
+                                                  products.data[index].price
+                                                      .toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black45,
+                                            ), textAlign: TextAlign.left,),
                                           ),
                                         ),
                                         Padding(
@@ -572,7 +723,7 @@ class _ProductListState extends State<ProductList>
                 child: new CircularProgressIndicator(),
               );
             },
-          )),
+          )): _bigDisplay(),
     );
   }
 
@@ -888,7 +1039,7 @@ class _RatingBoxState extends State<RatingBox> {
   }
 }
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   ProductPage(this.name, this.description, this.price, this.image);
   final String name;
   final String description;
@@ -896,10 +1047,15 @@ class ProductPage extends StatelessWidget {
   final String image;
 
   @override
+  _ProductPageState createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text(widget.name),
         centerTitle: true,
         elevation: 0,
       ),
@@ -908,7 +1064,7 @@ class ProductPage extends StatelessWidget {
         children: <Widget>[
           Image(
             image: AssetImage(
-              'asset/' + this.image,
+              'asset/' + this.widget.image,
             ),
             height: 320,
             width: 350,
@@ -930,7 +1086,7 @@ class ProductPage extends StatelessWidget {
                 ),
                 SizedBox(height: 5.0,),
                 Text(
-                  this.name,
+                  this.widget.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -938,11 +1094,20 @@ class ProductPage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text(this.description),
+                Text(this.widget.description,
+                style: TextStyle(
+                  color: Colors.black54
+                ),),
                 SizedBox(
                   height: 10,
                 ),
-                Text('Price: ' + this.price.toString()),
+                new Text(
+                  'US \$: ' +
+                      widget.price.toString(),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black45,
+                  ), textAlign: TextAlign.left,),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(200.0, 30.0, 0.0, 0.0),
                   child: RatingBox(),
