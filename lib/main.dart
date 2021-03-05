@@ -8,6 +8,7 @@ import 'package:my_first_flutter_app/AddFriendForm.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/AddProductForm.dart';
 
+
 void main() => runApp(MaterialApp(
       theme: new ThemeData(
         primarySwatch: Colors.blue,
@@ -535,10 +536,13 @@ class _ProductListState extends State<ProductList>
                                         SizedBox(
                                           height: 3.0,
                                         ),
-                                        new Text(
-                                          'Price: ' +
-                                              products.data[index].price
-                                                  .toString(),
+                                        Container(
+                                          color: Colors.green[100],
+                                          child: new Text(
+                                            'Price: ' +
+                                                products.data[index].price
+                                                    .toString(),
+                                          ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
