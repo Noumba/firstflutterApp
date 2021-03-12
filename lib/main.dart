@@ -7,6 +7,7 @@ import 'package:my_first_flutter_app/About.dart';
 import 'package:my_first_flutter_app/AddFriendForm.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/AddProductForm.dart';
+import 'package:my_first_flutter_app/Login_screen.dart';
 
 
 void main() => runApp(MaterialApp(
@@ -14,7 +15,7 @@ void main() => runApp(MaterialApp(
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context) => ProductList(),
+        '/': (context) => LoginScreen(),
         '/ninja': (context) => NinjaID(),
         '/friends': (context) => FriendsPage(),
         '/about': (context) => AboutUs(),
@@ -30,6 +31,7 @@ class NinjaID extends StatefulWidget {
 
 class _NinjaIDState extends State<NinjaID> {
   int ninjaLevel = 0;
+
 
   @override
   Widget build(BuildContext context) {

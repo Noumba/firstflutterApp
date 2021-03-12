@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common/sqlite_api.dart';
+import 'package:my_first_flutter_app/UserModel.dart';
 
 import 'main.dart';
 
@@ -33,6 +34,13 @@ class SQLiteDbProvider {
           "description TEXT,"
           "price INTEGER,"
           "image TEXT"
+          ")");
+      await db.execute("CREATE TABLE Users ("
+          "id INTEGER PRIMARY KEY,"
+          "username TEXT,"
+          "email TEXT,"
+          "password TEXT,"
+          "phoneNumber TEXT"
           ")");
 
       await db.execute(
@@ -153,4 +161,36 @@ class SQLiteDbProvider {
     db.delete("Product", where: "id = ?", whereArgs: [id]);
 
   }
+
+  //Insert new user into User table
+  Future<int> saveUser(User user) async {
+    final dbClient = await database;
+    int res = await dbClient.insert('Users', user.toMap());
+    return res;
+  }
+  //Delete a user from the Users table
+  Future<int> deleteUser(User user) async {
+    final dbClient = await database;
+    int res = await dbClient.delete('Users');
+    return res;
+  }
+
+  Future<User> getLogin(String username, String password) async {
+    final dbClient = await database;
+    var res = await dbClient.rawQuery("SELECT * FROM Users WHERE username = '$username' and password = '$password'");
+
+    if (res.length > 0) {
+      return new User.fromMap(res.first);
+    }
+    return null;
+  }
+
+  Future<List<User>> getAllUser() async {
+    final dbClient = await database;
+    var res = await dbClient.query("Users");
+
+    List<User> list = res.isNotEmpty ? res.map((c) => User.fromMap(c)).toList() : null ;
+    return list;
+  }
+
 }
