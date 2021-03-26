@@ -10,7 +10,8 @@ import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/AddProductForm.dart';
 import 'package:my_first_flutter_app/Login_screen.dart';
 import 'package:my_first_flutter_app/RegisterForm.dart';
-import 'package:my_first_flutter_app/Welcome.dart';
+import 'package:my_first_flutter_app/SplashScreen.dart';
+//import 'package:my_first_flutter_app/Welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/RatingModel.dart';
@@ -21,7 +22,7 @@ void main() => runApp(MaterialApp(
       ),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => Welcome(),
+        '/': (context) => SplashScreen(),
         '/login':(context) => LoginScreen(),
         '/ninja': (context) => NinjaID(),
         //'/friends': (context) => FriendsPage(1),

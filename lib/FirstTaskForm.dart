@@ -13,22 +13,26 @@ class _FirstTaskState extends State<FirstTask> {
   bool _checked1 = false;
   bool _checked2 = false;
   bool _checked3 = false;
+
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
       appBar: AppBar(
         title: Text('Form Page',
         style: TextStyle(
           fontSize: 18,
+          color: Colors.white70
 
         ),),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.grey[600],
+        backgroundColor: Colors.black,
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        color: Colors.grey[200],
+      body:
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        color: Colors.transparent,
         child: ListView(
           //mainAxisAlignment: MainAxisAlignment.start,
           //crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,11 +54,14 @@ class _FirstTaskState extends State<FirstTask> {
               decoration: BoxDecoration(
                 border: Border.all(
                     color: Colors.grey, width: 1.0, style: BorderStyle.solid),
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(7.0),
               ),
               child: TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Leonard',
+                  hintStyle: TextStyle(
+                    color: Colors.grey[500]
+                  ),
                   border: InputBorder.none,
                 ),
 
@@ -80,10 +87,13 @@ class _FirstTaskState extends State<FirstTask> {
                 color: Colors.grey,
                 width: 1.0,
               ),
-              borderRadius: BorderRadius.circular(20.0)),
+              borderRadius: BorderRadius.circular(7.0)),
               child: TextFormField(
                 decoration: InputDecoration(
                   hintText: 'noumba@example.com',
+                    hintStyle: TextStyle(
+                        color: Colors.grey[500]
+                    ),
                   border: InputBorder.none
                 ),
               ),
@@ -183,16 +193,25 @@ class _FirstTaskState extends State<FirstTask> {
               ),
 
             ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: RaisedButton(onPressed: (){},
-                  color: Colors.grey[500],
-                  child: Text('Submit'),
-
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: _width,),
+              height: 40,
+              child: RaisedButton(
+                onPressed: (){},
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
                 ),
+                color: Colors.black54,
+                child: Text('Submit',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold
+                ),),
+
               ),
             )
           ],
