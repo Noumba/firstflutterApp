@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/main.dart';
+import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 
-class AddProduct extends StatefulWidget {
-  final int _userid;
-  AddProduct(this._userid);
-
+class Registration extends StatefulWidget {
   @override
-  _AddProductState createState() => _AddProductState();
+  _RegistrationState createState() => _RegistrationState();
 }
 
-class _AddProductState extends State<AddProduct> {
-  String name;
-  int price;
-  String image;
-  String description;
+class _RegistrationState extends State<Registration> {
+
+  String _username;
+  String _password;
+  String _email;
+  String _phoneNumber;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -23,27 +21,11 @@ class _AddProductState extends State<AddProduct> {
   final _imageController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-
-  @override
-  /*void initState() {
-    // TODO: implement initState
-    super.initState();
-     /*_nameController = TextEditingController();
-     _priceController = TextEditingController();
-     _imageController = TextEditingController();
-     _descriptionController = TextEditingController();*/
-    _nameController.text = name;
-    _priceController.text = price.toString();
-    _imageController.text = image;
-    _descriptionController.text = description;
-  }*/
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product Page'),
+        title: Text('Registration Page'),
         backgroundColor: Colors.blue,
         centerTitle: true,
       ),
@@ -58,50 +40,49 @@ class _AddProductState extends State<AddProduct> {
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                    labelText: 'Product Name',
+                    labelText: 'User Name',
                   ),
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return 'Product name is Required';
+                      return 'Name is Required';
                     }
                     return null;
                   },
                   onSaved: (String value) {
-                    name = value;
+                    _username = value;
                   },
                 ),
                 TextFormField(
                   controller: _priceController,
                   decoration: InputDecoration(
-                    labelText: 'Price',
+                    labelText: 'Email',
                   ),
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return 'Price is required';
+                      return 'Email is required';
                     }
-                    final n = num.tryParse(value);
-                    if (n == null) {
-                      return '"$value" is not a valid number';
+                    if (value == null) {
+                      return 'Email is required';
                     }
                     return null;
                   },
                   onSaved: (String value) {
-                    price = int.parse(value);
+                    _email = value;
                   },
                 ),
                 TextFormField(
                   controller: _imageController,
                   decoration: InputDecoration(
-                    labelText: 'Image',
+                    labelText: 'Password',
                   ),
                   validator: (String value) {
                     if (value.isEmpty) {
-                      
+                      return 'Password is required';
                     }
                     return null;
                   },
                   onSaved: (String value) {
-                    image = value;
+                    _password = value;
                   },
                 ),
                 SizedBox(
@@ -109,22 +90,14 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 TextFormField(
                   controller: _descriptionController,
-                  minLines: 5,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
+                  keyboardType: TextInputType.phone,
                   textAlign: TextAlign.start,
                   decoration: InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          style: BorderStyle.solid, color: Colors.blueGrey),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    helperMaxLines: 10,
+                    labelText: 'Phone Number'
                   ),
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return 'Description is Required';
+                      return 'Phone Number is Required';
                     }
                     return null;
                   },
@@ -139,25 +112,26 @@ class _AddProductState extends State<AddProduct> {
                   padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
                   child: FlatButton(
                     onPressed: () {
-                        if (_formkey.currentState.validate()) {
+                      if (_formkey.currentState.validate()) {
 
-                           name = _nameController.text;
-                           price = int.parse(_priceController.text);
-                           image = _imageController.text;
-                           description = _descriptionController.text;
-                          _formkey.currentState.save();
-                          debugPrint(price.toString());
-                          ProductCard product = ProductCard(null, widget._userid, name, description, price, image);
-                          try {
-                            SQLiteDbProvider().insert(product);
-                          } catch (e){print(e);}
+                        _username = _nameController.text;
+                        _email = _priceController.text;
+                        _password = _imageController.text;
+                        _phoneNumber = _descriptionController.text;
+                        _formkey.currentState.save();
+                        User user = User(null, _username, _password, _email, _phoneNumber);
+                        try {
+                          SQLiteDbProvider().saveUser(user);
+                          var r =SQLiteDbProvider().getSpecificUser(_username, _password);
+                          print(r.toString());
+                        } catch (e){print(e);}
 
-                           Navigator.pop(context);
-                        }
+                        Navigator.pop(context);
+                      }
 
                       /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/
                     },
-                    child: Text('ADD'),
+                    child: Text('Register'),
                     padding: EdgeInsets.all(5.0),
                     color: Colors.blue,
                     minWidth: 5.0,

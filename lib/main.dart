@@ -1,26 +1,35 @@
+
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_flutter_app/FirstTaskForm.dart';
 import 'package:my_first_flutter_app/Friends.dart';
 import 'package:my_first_flutter_app/About.dart';
-import 'package:my_first_flutter_app/AddFriendForm.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/AddProductForm.dart';
 import 'package:my_first_flutter_app/Login_screen.dart';
-
+import 'package:my_first_flutter_app/RegisterForm.dart';
+import 'package:my_first_flutter_app/Welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_first_flutter_app/UserModel.dart';
+import 'package:my_first_flutter_app/RatingModel.dart';
 
 void main() => runApp(MaterialApp(
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => Welcome(),
+        '/login':(context) => LoginScreen(),
         '/ninja': (context) => NinjaID(),
-        '/friends': (context) => FriendsPage(),
+        //'/friends': (context) => FriendsPage(1),
         '/about': (context) => AboutUs(),
-        '/add_friend': (context) => AddFriend(),
-        '/add_product': (context) => AddProduct(),
+        '/task_form': (context) => FirstTask(),
+        //'/add_friend': (context) => AddFriend(),
+        /*'/add_product': (context) => AddProduct(),*/
+        '/register': (context) => Registration(),
       },
     ));
 
@@ -268,6 +277,10 @@ class _NinjaIDState extends State<NinjaID> {
 }
 
 class ProductList extends StatefulWidget {
+  final User _user;
+  ProductList(this._user);
+
+
   @override
   _ProductListState createState() => _ProductListState();
 }
@@ -286,7 +299,6 @@ class _ProductListState extends State<ProductList>
   String image;
 
   SQLiteDbProvider dbHelper;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -301,19 +313,32 @@ class _ProductListState extends State<ProductList>
 
   refreshProductList() {
     setState(() {
-      products = dbHelper.getAllProducts();
+      products = dbHelper.getAllProductsSpecificToUser(widget._user.id);
     });
   }
 
-  _refreshAfterAdd() {
+  refreshAfterAdd() {
     setState(() {});
+  }
+
+  LoginStatus _loginStatus = LoginStatus.SignIn;
+
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", null);
+      // ignore: deprecated_member_use
+      preferences.commit();
+      _loginStatus = LoginStatus.notSignIn;
+      print('logged Out');
+    });
   }
 
   Widget _bigDisplay(){
     return new Container(
         padding: new EdgeInsets.all(16.0),
         child: new FutureBuilder<List<ProductCard>>(
-          future: dbHelper.getAllProducts(),
+          future: dbHelper.getAllProductsSpecificToUser(widget._user.id),
           builder: (context, products) {
             if (products.hasData) {
               return new GridView.builder(
@@ -332,7 +357,10 @@ class _ProductListState extends State<ProductList>
                                       products.data[index].name,
                                       products.data[index].description,
                                       products.data[index].price,
-                                      products.data[index].image)));
+                                      products.data[index].image,
+                                      widget._user.id,
+                                      products.data[index].id
+                                  )));
                         },
                         child: Card(
                           child: Column(
@@ -343,8 +371,8 @@ class _ProductListState extends State<ProductList>
                                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                                 child: new Container(
                                   child: new Image(
-                                    image: new ExactAssetImage(
-                                        'asset/' + products.data[index].image),
+                                    image: new ExactAssetImage(products.data[index].image.isNotEmpty ?
+                                        'asset/' + products.data[index].image : 'asset/phone.png'),
                                     height: 120,
                                     width: 150,
                                     fit: BoxFit.cover,
@@ -415,7 +443,7 @@ class _ProductListState extends State<ProductList>
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             30.0, 0.0, 0.0, 0.0),
-                                        child: new RatingBox(),
+                                        child: new RatingBox(widget._user.id,products.data[index].id),
                                       ),
                                     ],
                                   ),
@@ -450,11 +478,11 @@ class _ProductListState extends State<ProductList>
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
+          /*IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () {
                 _refreshAfterAdd();
-              }),
+              }),*/
         ],
         backgroundColor: Colors.pink[300],
         title: Text('Product List'),
@@ -490,8 +518,7 @@ class _ProductListState extends State<ProductList>
                         ),
                         radius: 30.0,
                       ),
-                      Text(
-                        'Name',
+                      Text(widget._user.username,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -561,7 +588,7 @@ class _ProductListState extends State<ProductList>
                           child: Container(child: Text('Profile'))),
                       FlatButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/friends');
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsPage(widget._user.id)));
                           },
                           padding: EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0),
                           color: Colors.transparent,
@@ -579,7 +606,7 @@ class _ProductListState extends State<ProductList>
                           child: Container(child: Text('About'))),
                       FlatButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '');
+                            Navigator.pushNamed(context, '/task_form');
                           },
                           padding: EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0),
                           color: Colors.transparent,
@@ -589,14 +616,30 @@ class _ProductListState extends State<ProductList>
                     ],
                   ),
                 ],
-              )
+              ),
+
+              FlatButton(
+                  onPressed: () {
+                    if(_loginStatus == LoginStatus.SignIn){
+                      signOut();
+                      dbHelper.getAllUser();
+                      /*Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome() ));*/
+                      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                    }
+                  },
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0),
+                  color: Colors.transparent,
+                  minWidth: 170.0,
+                  highlightColor: Colors.blue,
+                  child: Container(child: Text('Sign Out'))),
+
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/add_product');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(widget._user.id)));
         },
         backgroundColor: Colors.pink[300],
         child: Icon(
@@ -608,7 +651,7 @@ class _ProductListState extends State<ProductList>
       body: (_width < 500)? new Container(
           padding: new EdgeInsets.all(16.0),
           child: new FutureBuilder<List<ProductCard>>(
-            future: dbHelper.getAllProducts(),
+            future: dbHelper.getAllProductsSpecificToUser(widget._user.id),
             builder: (context, products) {
               if (products.hasData) {
                 return new ListView.builder(
@@ -624,7 +667,10 @@ class _ProductListState extends State<ProductList>
                                         products.data[index].name,
                                         products.data[index].description,
                                         products.data[index].price,
-                                        products.data[index].image)));
+                                        products.data[index].image,
+                                        widget._user.id,
+                                        products.data[index].id
+                                    )));
                           },
                           child: Card(
                             child: Row(
@@ -632,8 +678,8 @@ class _ProductListState extends State<ProductList>
                               children: [
                                 new Container(
                                   child: new Image(
-                                    image: new ExactAssetImage(
-                                        'asset/' + products.data[index].image),
+                                    image: new ExactAssetImage(products.data[index].image.isNotEmpty ?
+                                        'asset/' + products.data[index].image : 'asset/phone.png'),
                                     height: 120,
                                     width: 110,
                                     fit: BoxFit.cover,
@@ -700,7 +746,7 @@ class _ProductListState extends State<ProductList>
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               30.0, 0.0, 0.0, 0.0),
-                                          child: new RatingBox(),
+                                          child: new RatingBox(widget._user.id,products.data[index].id),
                                         ),
                                       ],
                                     ),
@@ -712,7 +758,7 @@ class _ProductListState extends State<ProductList>
                                 new Text(snapshot.data[index].description,
                                     style: new TextStyle(
                                         fontWeight: FontWeight.bold, fontSize: 18.0))*/
-                                new Divider()
+                                new Divider(),
                               ],
                             ),
                           ),
@@ -759,18 +805,22 @@ class MyAnimatedWidget extends StatelessWidget {
 }
 
 class ProductCard {
+  // ignore: non_constant_identifier_names
   final int id;
+  // ignore: non_constant_identifier_names
+  final int user_id;
   final String name;
   final String description;
   final int price;
   final String image;
 
-  static final columns = ["id", "name", "description", "price", "image"];
-  ProductCard(this.id, this.name, this.description, this.price, this.image);
+  static final columns = ["id", "user_id", "name", "description", "price", "image"];
+  ProductCard(this.id, this.user_id, this.name, this.description, this.price, this.image);
 
   factory ProductCard.fromMap(Map<String, dynamic> data) {
     return ProductCard(
       data['id'],
+      data['user_id'],
       data['name'],
       data['description'],
       data['price'],
@@ -780,6 +830,7 @@ class ProductCard {
 
   Map<String, dynamic> toMap() => {
         'id': id,
+        'user_id': user_id,
         'name': name,
         'description': description,
         'price': price,
@@ -952,101 +1003,214 @@ void _showDialog(BuildContext context) {
 }*/
 
 class RatingBox extends StatefulWidget {
+  final int uid;
+  final int pid;
+  RatingBox(this.uid, this.pid);
+
   @override
   _RatingBoxState createState() => _RatingBoxState();
 }
 
 class _RatingBoxState extends State<RatingBox> {
-  int _rating = 0;
+  Rating _rating;
+  int rate;
 
-  void setStateAsOne() {
+  SQLiteDbProvider dbHelper = SQLiteDbProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    print('init state this');
+
+
+  }
+
+  Future<Rating> initRating() async{
+    _rating = await dbHelper.getSpecificRating(widget.uid, widget.pid);
+    print('init state method');
+    return _rating;
+  }
+
+
+  setRating() {
     setState(() {
-      _rating = 1;
+       dbHelper.getSpecificRating(widget.uid, widget.pid).then((value) => value.stars);
     });
   }
 
-  void setStateAsTwo() {
+
+  void setStateAsOne() async{
+    Rating rating = Rating(1, widget.uid, widget.pid);
+    await dbHelper.insertOrAddRating(rating, widget.uid, widget.pid);
+
+    _rating = await dbHelper.getSpecificRating(widget.uid, widget.pid);
     setState(() {
-      _rating = 2;
+      rate = _rating.stars ;
     });
   }
 
-  void setStateAsThree() {
+  void setStateAsTwo() async{
+    Rating rating = Rating(2, widget.uid, widget.pid);
+    await dbHelper.insertOrAddRating(rating, widget.uid, widget.pid);
+
+    _rating = await dbHelper.getSpecificRating(widget.uid, widget.pid);
     setState(() {
-      _rating = 3;
+      rate = _rating.stars;
+    });
+  }
+
+  void setStateAsThree() async{
+    Rating rating = Rating(3, widget.uid, widget.pid);
+    await dbHelper.insertOrAddRating(rating, widget.uid, widget.pid);
+
+    _rating = await dbHelper.getSpecificRating(widget.uid, widget.pid);
+    setState(() {
+      rate = _rating.stars;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_rating);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          width: 20,
-          child: IconButton(
-            icon: (_rating >= 1
-                ? Icon(
-                    Icons.star,
-                    size: 20,
-                  )
-                : Icon(
-                    Icons.star_border,
-                    size: 20,
-                  )),
-            onPressed: setStateAsOne,
-            color: Colors.red,
-            iconSize: 20,
-          ),
-        ),
-        Container(
-          width: 20,
-          child: IconButton(
-            icon: (_rating >= 2
-                ? Icon(
-                    Icons.star,
-                    size: 20,
-                  )
-                : Icon(
-                    Icons.star_border,
-                    size: 20,
-                  )),
-            onPressed: setStateAsTwo,
-            color: Colors.red,
-            iconSize: 20,
-          ),
-        ),
-        Container(
-          width: 20,
-          child: IconButton(
-            icon: (_rating >= 3
-                ? Icon(
-                    Icons.star,
-                    size: 20,
-                  )
-                : Icon(
-                    Icons.star_border,
-                    size: 20,
-                  )),
-            onPressed: setStateAsThree,
-            color: Colors.red,
-            iconSize: 20,
-          ),
-        ),
-      ],
+    print('Rating: '+ rate.toString());
+    return Container(
+      child: FutureBuilder<Rating>(
+        future: initRating(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            rate = snapshot.data.stars;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  width: 20,
+                  child: IconButton(
+                    icon: (rate >= 1
+                        ? Icon(
+                      Icons.star,
+                      size: 20,
+                    )
+                        : Icon(
+                      Icons.star_border,
+                      size: 20,
+                    )),
+                    onPressed: setStateAsOne,
+                    color: Colors.red,
+                    iconSize: 20,
+                  ),
+                ),
+                Container(
+                  width: 20,
+                  child: IconButton(
+                    icon: (rate >= 2
+                        ? Icon(
+                      Icons.star,
+                      size: 20,
+                    )
+                        : Icon(
+                      Icons.star_border,
+                      size: 20,
+                    )),
+                    onPressed: setStateAsTwo,
+                    color: Colors.red,
+                    iconSize: 20,
+                  ),
+                ),
+                Container(
+                  width: 20,
+                  child: IconButton(
+                    icon: (rate >= 3
+                        ? Icon(
+                      Icons.star,
+                      size: 20,
+                    )
+                        : Icon(
+                      Icons.star_border,
+                      size: 20,
+                    )),
+                    onPressed: setStateAsThree,
+                    color: Colors.red,
+                    iconSize: 20,
+                  ),
+                ),
+              ],
+            );
+
+          }
+          rate = 0;
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                width: 20,
+                child: IconButton(
+                  icon: (rate >= 1
+                      ? Icon(
+                          Icons.star,
+                          size: 20,
+                        )
+                      : Icon(
+                          Icons.star_border,
+                          size: 20,
+                        )),
+                  onPressed: setStateAsOne,
+                  color: Colors.red,
+                  iconSize: 20,
+                ),
+              ),
+              Container(
+                width: 20,
+                child: IconButton(
+                  icon: (rate >= 2
+                      ? Icon(
+                          Icons.star,
+                          size: 20,
+                        )
+                      : Icon(
+                          Icons.star_border,
+                          size: 20,
+                        )),
+                  onPressed: setStateAsTwo,
+                  color: Colors.red,
+                  iconSize: 20,
+                ),
+              ),
+              Container(
+                width: 20,
+                child: IconButton(
+                  icon: (rate >= 3
+                      ? Icon(
+                          Icons.star,
+                          size: 20,
+                        )
+                      : Icon(
+                          Icons.star_border,
+                          size: 20,
+                        )),
+                  onPressed: setStateAsThree,
+                  color: Colors.red,
+                  iconSize: 20,
+                ),
+              ),
+            ],
+          );
+        }
+      ),
     );
   }
 }
 
 class ProductPage extends StatefulWidget {
-  ProductPage(this.name, this.description, this.price, this.image);
+  ProductPage(this.name, this.description, this.price, this.image, this.uid, this.pid);
   final String name;
   final String description;
   final int price;
   final String image;
+  final int uid;
+  final int pid;
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -1065,8 +1229,8 @@ class _ProductPageState extends State<ProductPage> {
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
         children: <Widget>[
           Image(
-            image: AssetImage(
-              'asset/' + this.widget.image,
+            image: AssetImage(widget.image.isNotEmpty ?
+              'asset/' + this.widget.image : 'asset/phone.png',
             ),
             height: 320,
             width: 350,
@@ -1112,7 +1276,7 @@ class _ProductPageState extends State<ProductPage> {
                   ), textAlign: TextAlign.left,),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(200.0, 30.0, 0.0, 0.0),
-                  child: RatingBox(),
+                  child: RatingBox(widget.uid, widget.pid),
                 ),
               ],
             ),

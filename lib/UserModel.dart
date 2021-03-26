@@ -8,18 +8,20 @@ class User{
 
   User(this._id, this._username, this._password, this._email, this._phoneNumber);
 
-  User.fromMap(Map<String, dynamic> details ){
-    this._id = details[_id];
-    this._username = details[_username];
-    this._password = details[_password];
-    this._email = details[_email];
-    this._phoneNumber = details[_phoneNumber];
-  }
-
+  /*User.fromMap(Map<String, dynamic> map ){
+    this._id = map[_id];
+    this._username = map[_username];
+    this._password = map[_password];
+    this._email = map[_email];
+    this._phoneNumber = map[_phoneNumber];
+  }*/
+  int get id => _id;
   String get username => _username;
   String get password => _password;
+  String get email => _email;
+  String get phoneNumber => _phoneNumber;
 
-  Map<String, dynamic> toMap() {
+  /*Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
     map['id'] = _id;
     map['username'] = _username;
@@ -28,6 +30,25 @@ class User{
     map['phoneNumber'] = _phoneNumber;
 
     return map;
+  }*/
+
+
+  factory User.fromMap(Map<String, dynamic> data) {
+    return User(
+      data['id'],
+      data['username'],
+      data['password'],
+      data['email'],
+      data['phoneNumber'],
+    );
   }
+
+  Map<String, dynamic> toMap() => {
+    'id': _id,
+    'username': _username,
+    'password': _password,
+    'email': _email,
+    'phoneNumber': _phoneNumber,
+  };
 
 }

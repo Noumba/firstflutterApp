@@ -1,3 +1,4 @@
+
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/LoginRequest.dart';
 
@@ -7,11 +8,15 @@ abstract class LoginCallback{
 }
 
 class LoginResponse {
-  LoginCallback _callback;
+  final Function onLoginSuccess;
+  final Function onLoginError;
   LoginRequest loginRequest = new LoginRequest();
-  LoginResponse(this._callback);
+  LoginResponse(this.onLoginSuccess,this.onLoginError);
 
   doLogin(String username, String password){
-    loginRequest.getLogin(username, password).then((user) => _callback.onLoginSuccess(user)).catchError((onError) => _callback.onLoginError(onError.toString()));
+    print('This is the response class');
+
+    loginRequest.getLogin(username, password).then((user) => onLoginSuccess(user))
+        .catchError((onError) => onLoginError(onError.toString()));
   }
 }

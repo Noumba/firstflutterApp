@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/LoginResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,32 +11,26 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-enum LoginStatus { notSignIn, SignIn}
+enum LoginStatus { notSignIn, SignIn }
 
 class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
+  String username, password;
   LoginStatus _loginStatus = LoginStatus.notSignIn;
-  final formKey = new GlobalKey<FormState>();
+  final _formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String _username, _password;
+  final _nameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  SQLiteDbProvider dbHelper = SQLiteDbProvider();
+
   LoginResponse _response;
+  /*LoginCallback _callback;*/
 
   loginPageState() {
-    _response = new LoginResponse(this);
+    _response = new LoginResponse(onLoginSuccess, onLoginError);
   }
 
-  void _submit() {
-    final form = formKey.currentState;
-
-    if (form.validate()){
-      setState(() {
-        form.save();
-        _response.doLogin(_username, _password);
-      });
-    }
-  }
-
-  void _showSnackBar(String text){
+  void _showSnackBar(String text) {
     scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(text),
     ));
@@ -46,6 +41,8 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       value = preferences.getInt("value");
+      username = preferences.getString("user");
+      password = preferences.getString("pass");
       _loginStatus = value == 1 ? LoginStatus.SignIn : LoginStatus.notSignIn;
     });
   }
@@ -60,19 +57,42 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
     });
   }
 
+  /*getUser() async{
+    var run = await SQLiteDbProvider().getSpecificUser(username, password);
+    print(run);
+    User newUser = new User(run.id, run.username, run.password, run.email, run.phoneNumber);
+    return ProductList(newUser);
+  }*/
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    _response = LoginResponse(onLoginSuccess, onLoginError);
     getPref();
   }
 
   @override
   // ignore: missing_return
   Widget build(BuildContext context) {
-    switch (_loginStatus){
+    switch (_loginStatus) {
       case LoginStatus.notSignIn:
         var loginBtn = new RaisedButton(
-          onPressed: _submit,
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              setState(() {
+                username = _nameController.text;
+                password = _passwordController.text;
+
+                _formKey.currentState.save();
+                debugPrint(username);
+                try {
+                  _response.doLogin(username, password);
+                } catch (e) {
+                  print(e);
+                }
+              });
+            }
+          },
           child: new Text('Login'),
           color: Colors.green,
         );
@@ -81,28 +101,40 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             new Form(
-                key: formKey,
+                key: _formKey,
                 child: new Column(
                   children: <Widget>[
                     new Padding(
                       padding: EdgeInsets.all(10.0),
                       child: new TextFormField(
-                        onSaved: (val) => _username = val,
+                        controller: _nameController,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'name is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) => username = value,
                         decoration: InputDecoration(
                             labelText: 'Username',
-                            suffixIcon: Icon(Icons.person)
-                        ),
+                            suffixIcon: Icon(Icons.person)),
                         keyboardType: TextInputType.text,
                       ),
                     ),
                     new Padding(
                       padding: EdgeInsets.all(10.0),
                       child: new TextFormField(
-                        onSaved: (val) => _password = val,
+                        controller: _passwordController,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'name is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) => password = value,
                         decoration: InputDecoration(
-                          labelText: 'Password',
-                          suffixIcon: Icon(Icons.lock)
-                        ),
+                            labelText: 'Password',
+                            suffixIcon: Icon(Icons.lock)),
                         keyboardType: TextInputType.text,
                       ),
                     ),
@@ -117,7 +149,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
             title: Text('Login Page'),
           ),
           key: scaffoldKey,
-
           body: new Container(
             child: new Center(
               child: loginForm,
@@ -126,7 +157,30 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
         );
         break;
       case LoginStatus.SignIn:
-        ProductList();
+        return new Container(
+            child: new FutureBuilder<List<User>>(
+                future: dbHelper.getSpecificUser(username, password),
+                builder: (context, user) {
+                  if (user.hasData) {
+                    final int id = user.data.first.id;
+                    final String username = user.data.first.username;
+                    final String password = user.data.first.password;
+                    final String email = user.data.first.email;
+                    final String phoneNumber = user.data.first.phoneNumber;
+                    print(id);
+                    print(username);
+                    print(password);
+                    User newUser =
+                        User(id, username, password, email, phoneNumber);
+                    print(user.data);
+                    print(user.data.first.username);
+                    return Container(child: ProductList(newUser));
+                  }
+                  return new Container(
+                    alignment: AlignmentDirectional.center,
+                    child: new CircularProgressIndicator(),
+                  );
+                }));
         break;
     }
   }
@@ -143,21 +197,20 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
   }
 
   @override
-  void onLoginError(String error){
+  void onLoginError(String error) {
     _showSnackBar(error);
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
   void onLoginSuccess(User user) async {
-    if(user != null){
+    if (user != null) {
       savePref(1, user.username, user.password);
       _loginStatus = LoginStatus.SignIn;
-    }else{
-      _showSnackBar("Login Leonardo, Silahkan Login Failed");
-      setState(() {
-      });
+      print('Success');
+    } else {
+      _showSnackBar("Login Leonardo, Login Failed");
+      setState(() {});
     }
   }
 }
