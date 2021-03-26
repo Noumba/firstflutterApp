@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/UserModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/UserModel.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 
 class Registration extends StatefulWidget {

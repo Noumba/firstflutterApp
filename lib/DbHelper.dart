@@ -5,9 +5,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common/sqlite_api.dart';
-import 'package:my_first_flutter_app/UserModel.dart';
-import 'package:my_first_flutter_app/RatingModel.dart';
-import 'package:my_first_flutter_app/FriendsModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/UserModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/RatingModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/FriendsModel.dart';
 
 import 'main.dart';
 

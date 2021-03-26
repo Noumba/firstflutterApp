@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
-import 'package:my_first_flutter_app/FriendsModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/FriendsModel.dart';
 
 class AddFriend extends StatefulWidget {
   final int uid;

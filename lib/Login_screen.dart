@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
-import 'package:my_first_flutter_app/UserModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/UserModel.dart';
 import 'package:my_first_flutter_app/LoginResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_first_flutter_app/main.dart';

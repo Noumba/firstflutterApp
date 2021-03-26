@@ -3,18 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/FirstTaskForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/FirstTaskForm.dart';
 import 'package:my_first_flutter_app/Friends.dart';
 import 'package:my_first_flutter_app/About.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
-import 'package:my_first_flutter_app/AddProductForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/AddProductForm.dart';
 import 'package:my_first_flutter_app/Login_screen.dart';
-import 'package:my_first_flutter_app/RegisterForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/RegisterForm.dart';
 import 'package:my_first_flutter_app/SplashScreen.dart';
 //import 'package:my_first_flutter_app/Welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:my_first_flutter_app/UserModel.dart';
-import 'package:my_first_flutter_app/RatingModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/UserModel.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Models/RatingModel.dart';
 
 void main() => runApp(MaterialApp(
       theme: new ThemeData(
