@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_flutter_app/Login_screen.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 
@@ -119,14 +120,14 @@ class _RegistrationState extends State<Registration> {
                         _password = _imageController.text;
                         _phoneNumber = _descriptionController.text;
                         _formkey.currentState.save();
-                        User user = User(null, _username, _password, _email, _phoneNumber);
+                        UserReal user = UserReal(null, _username, _password, _email, _phoneNumber);
                         try {
                           SQLiteDbProvider().saveUser(user);
                           var r =SQLiteDbProvider().getSpecificUser(_username, _password);
                           print(r.toString());
                         } catch (e){print(e);}
 
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                       }
 
                       /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/

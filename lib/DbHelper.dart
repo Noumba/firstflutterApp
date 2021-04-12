@@ -10,6 +10,7 @@ import 'package:my_first_flutter_app/RatingModel.dart';
 import 'package:my_first_flutter_app/FriendsModel.dart';
 
 import 'main.dart';
+import 'package:my_first_flutter_app/Photo.dart';
 
 class SQLiteDbProvider {
  /* SQLiteDbProvider._();
@@ -62,6 +63,10 @@ class SQLiteDbProvider {
           "email TEXT,"
           "image TEXT,"
           "FOREIGN KEY(uid) REFERENCES Users(id)"
+          ")");
+      await db.execute("CREATE TABLE Photos ("
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+          "photoName TEXT"
           ")");
 
       await db.execute(
@@ -261,46 +266,46 @@ class SQLiteDbProvider {
   }
 
   //Insert new user into User table
-  Future<int> saveUser(User user) async {
+  Future<int> saveUser(UserReal user) async {
     final dbClient = await database;
     int res = await dbClient.insert('Users', user.toMap());
     print('Saved successful');
     return res;
   }
   //Delete a user from the Users table
-  Future<int> deleteUser(User user) async {
+  Future<int> deleteUser(UserReal user) async {
     final dbClient = await database;
     int res = await dbClient.delete('Users');
     return res;
   }
 
-  Future<User> getLogin(String username, String password) async {
+  Future<UserReal> getLogin(String username, String password) async {
     final dbClient = await database;
     var res = await dbClient.rawQuery("SELECT * FROM Users WHERE username = '$username' and password = '$password'");
 
     if (res.length > 0) {
-      return new User.fromMap(res.first);
+      return new UserReal.fromMap(res.first);
     }
     return null;
   }
 
-  Future<List<User>> getAllUser() async {
+  Future<List<UserReal>> getAllUser() async {
     final dbClient = await database;
     var res = await dbClient.query("Users");
 
-    List<User> list = res.isNotEmpty ? res.map((c) => User.fromMap(c)).toList() : null ;
+    List<UserReal> list = res.isNotEmpty ? res.map((c) => UserReal.fromMap(c)).toList() : null ;
     print(list);
     return list;
   }
 
-  Future<List<User>> getSpecificUser(String _name, String _password) async {
+  Future<List<UserReal>> getSpecificUser(String _name, String _password) async {
     final db = await database;
     print(_name);
     /*List<Map> result = await db.query("Users", where: "username = ? and password = ? " , whereArgs: [_name, _password]);*/
     List<Map> result = await db.query("Users", where: "username = ? and password = ? " , whereArgs: [_name, _password]);
-      List<User> users = new List();
+      List<UserReal> users = new List();
       result.forEach((result) {
-        User user = User.fromMap(result);
+        UserReal user = UserReal.fromMap(result);
         print(user.id);
         users.add(user);
       });
@@ -363,7 +368,28 @@ class SQLiteDbProvider {
 
   }
 
+  insertPhoto(Photo photo) async {
+    final db = await database;
+    var result = await db.insert('Photos', photo.toMap());
+    print('Photo Added Success');
+    return result;
+  }
 
+  Future<List<Photo>> getAllPhotos() async {
+    final db = await database;
+
+    List<Map> results = await db.query("Photos",
+        /*columns: ProductCard.columns,*/ orderBy: "id DESC");
+
+    List<Photo> photos = new List();
+    results.forEach((result) {
+      Photo photo = Photo.fromMap(result);
+      photos.add(photo);
+    });
+    print('All Photos are ready');
+
+    return photos;
+  }
 
 }
 

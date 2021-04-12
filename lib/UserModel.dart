@@ -1,12 +1,11 @@
-
-class User{
+class UserReal{
   int _id;
   String _username;
   String _password;
   String _email;
   String _phoneNumber;
 
-  User(this._id, this._username, this._password, this._email, this._phoneNumber);
+  UserReal(this._id, this._username, this._password, this._email, this._phoneNumber);
 
   /*User.fromMap(Map<String, dynamic> map ){
     this._id = map[_id];
@@ -33,8 +32,8 @@ class User{
   }*/
 
 
-  factory User.fromMap(Map<String, dynamic> data) {
-    return User(
+  factory UserReal.fromMap(Map<String, dynamic> data) {
+    return UserReal(
       data['id'],
       data['username'],
       data['password'],

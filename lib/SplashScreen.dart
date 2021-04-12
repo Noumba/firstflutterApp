@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/AfterSplash.dart';
+//import 'package:my_first_flutter_app/CustomScrollView.dart';
+import 'package:my_first_flutter_app/Login_screen.dart';
+//import 'package:my_first_flutter_app/AfterSplash.dart';
+//import 'package:my_first_flutter_app/Login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AfterSplash()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   @override

@@ -3,36 +3,60 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/FirstTaskForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/FirstTaskForm.dart';
 import 'package:my_first_flutter_app/Friends.dart';
 import 'package:my_first_flutter_app/About.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
-import 'package:my_first_flutter_app/AddProductForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/AddProductForm.dart';
 import 'package:my_first_flutter_app/Login_screen.dart';
-import 'package:my_first_flutter_app/RegisterForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/RegisterForm.dart';
 import 'package:my_first_flutter_app/SplashScreen.dart';
+import 'package:provider/provider.dart';
 //import 'package:my_first_flutter_app/Welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/RatingModel.dart';
+import 'package:my_first_flutter_app/Pictures.dart';
+// import 'package:provider/provider.dart';
 
-void main() => runApp(MaterialApp(
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
+void main() => runApp(MultiProvider(
+  providers: [
+    ChangeNotifierProvider<Pictures>(create: (_) => Pictures(),),
+  ],
+  child:   MaterialApp(
+
+        theme: new ThemeData(
+
+          primarySwatch: Colors.blue,
+
+        ),
+
+        debugShowCheckedModeBanner: false,
+
+        routes: {
+
+          '/': (context) => SplashScreen(),
+
+          '/login':(context) => LoginScreen(),
+
+          '/ninja': (context) => NinjaID(),
+
+          //'/friends': (context) => FriendsPage(1),
+
+          '/about': (context) => AboutUs(),
+
+          '/task_form': (context) => FirstTask(),
+
+          //'/add_friend': (context) => AddFriend(),
+
+          /*'/add_product': (context) => AddProduct(),*/
+
+          '/register': (context) => Registration(),
+
+        },
+
       ),
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => SplashScreen(),
-        '/login':(context) => LoginScreen(),
-        '/ninja': (context) => NinjaID(),
-        //'/friends': (context) => FriendsPage(1),
-        '/about': (context) => AboutUs(),
-        '/task_form': (context) => FirstTask(),
-        //'/add_friend': (context) => AddFriend(),
-        /*'/add_product': (context) => AddProduct(),*/
-        '/register': (context) => Registration(),
-      },
-    ));
+));
 
 class NinjaID extends StatefulWidget {
   @override
@@ -278,7 +302,7 @@ class _NinjaIDState extends State<NinjaID> {
 }
 
 class ProductList extends StatefulWidget {
-  final User _user;
+  final UserReal _user;
   ProductList(this._user);
 
 

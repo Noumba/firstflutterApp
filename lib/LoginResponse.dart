@@ -3,7 +3,7 @@ import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/LoginRequest.dart';
 
 abstract class LoginCallback{
-  void onLoginSuccess(User user);
+  void onLoginSuccess(UserReal user);
   void onLoginError(String error);
 }
 

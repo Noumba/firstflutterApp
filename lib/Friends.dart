@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter_app/AddFriendForm.dart';
+import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/AddFriendForm.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/FriendsModel.dart';
 
