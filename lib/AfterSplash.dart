@@ -6,12 +6,15 @@ import 'package:my_first_flutter_app/FeedbackPage.dart';
 import 'package:my_first_flutter_app/Jsondata.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/Notification.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_first_flutter_app/Login_screen.dart';
 // import 'package:provider/provider.dart';
 // import 'package:my_first_flutter_app/Pictures.dart';
 
 class AfterSplash extends StatefulWidget {
-  final UserReal _user;
-  AfterSplash(this._user);
+   final UserReal _user;
+   final LoginStatus _loginStatus;
+  AfterSplash(this._user, this._loginStatus);
   @override
   _AfterSplashState createState() => _AfterSplashState();
 }
@@ -28,6 +31,18 @@ class _AfterSplashState extends State<AfterSplash> {
     NotificationDetails(
         'Cute Stephany', 'updated his timeline and many people are liking it'),
   ];
+
+  LoginStatus _loginStatus;
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", null);
+      // ignore: deprecated_member_use
+      preferences.commit();
+      _loginStatus = LoginStatus.notSignIn;
+      print('logged Out');
+    });
+  }
 
   Widget popUpNotifications() {
     return PopupMenuButton(
@@ -118,6 +133,13 @@ class _AfterSplashState extends State<AfterSplash> {
           }
           return menuItem;
         });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loginStatus = widget._loginStatus;
   }
 
   @override
@@ -318,6 +340,34 @@ class _AfterSplashState extends State<AfterSplash> {
                     ),
                   ],
                 ),
+
+                ListTile(
+                  tileColor: Colors.deepOrange[900],
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 105.0, 0.0),
+                  onTap: (){
+                    if(_loginStatus == LoginStatus.SignInAsGuest){
+                      print('SignOut Guest');
+                      setState(() {
+                        _loginStatus = LoginStatus.notSignIn;
+                      });
+                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                    }else {
+                      print('SignOut Real User');
+                      signOut();
+                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                    }
+                  },
+                  leading:
+                      Icon(
+                        Icons.logout,
+                        color: Colors.lightBlue[900],
+                      ),
+                  trailing: Container(child: Text('SignOut',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white70
+                  ),)),
+                )
               ],
             ),
           ),

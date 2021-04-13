@@ -1,6 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/scheduler.dart';
 import 'package:my_first_flutter_app/AfterSplash.dart';
 //import 'package:my_first_flutter_app/AfterSplash.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-enum LoginStatus { notSignIn, SignIn }
+enum LoginStatus { notSignIn, SignIn, SignInAsGuest }
 
 class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
   String username, password;
@@ -113,15 +113,16 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Align(heightFactor: 2.0,
+                Align(
+                  heightFactor: 2.0,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Hello.\nWelcome Back',
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
                       ),
                     ),
                   ),
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new Form(
-                    key: _formKey,
+                      key: _formKey,
                       child: new Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -170,9 +171,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                         ],
                       )),
                 ),
-                Align(heightFactor: 1.5,
-                    child: loginBtn),
-                Align(heightFactor: 1.0,
+                Align(heightFactor: 1.5, child: loginBtn),
+                Align(
+                  heightFactor: 1.0,
                   alignment: Alignment.bottomCenter,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Registration()));
@@ -281,26 +282,41 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
         //   ],
         // );
 
+        // Future<bool> rebuild() async{
+        //   if(!mounted) return false;
+        //   if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle){
+        //     await SchedulerBinding.instance.endOfFrame;
+        //     if(!mounted) return false;
+        //   }
+        //
+        //   setState(() {
+        //     _loginStatus = LoginStatus.SignInAsGuest;
+        //   });
+        //   return true;
+        // }
         return new Scaffold(
           appBar: new AppBar(
             title: Text('Login Page'),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(onPressed: (){
+                child: RaisedButton(
+                    onPressed: (){
+                      _loginStatus = LoginStatus.SignInAsGuest;
+                      print(_loginStatus);
+                      setState(() {
 
-                  UserReal _user = UserReal(null, 'Guest', null, null, null);
-                  dbHelper.saveUser(_user);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AfterSplash(_user)));
-                },
+                      });
+                    },
                     elevation: 5.0,
                     color: Colors.transparent,
-                    child: Text('Guest',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white70
-                    ),)),
+                    child: Text(
+                      'Guest',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white70),
+                    )),
               )
             ],
           ),
@@ -327,13 +343,20 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                         UserReal(id, username, password, email, phoneNumber);
                     print(user.data);
                     print(user.data.first.username);
-                    return Container(child: AfterSplash(newUser));
+                    return Container(child: AfterSplash(newUser, _loginStatus));
                   }
                   return new Container(
                     alignment: AlignmentDirectional.center,
                     child: new CircularProgressIndicator(),
                   );
                 }));
+        break;
+      case LoginStatus.SignInAsGuest:
+        UserReal _user = UserReal(null, 'Guest', null, null, null);
+        dbHelper.saveUser(_user);
+        if(_user != null){
+          return Container(child: AfterSplash(_user, _loginStatus));
+        }
         break;
     }
   }

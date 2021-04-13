@@ -27,7 +27,7 @@ class _NamesJsonState extends State<NamesJson> {
   }
 
   Future<List<Employees>> fetchEmployees(http.Client client) async {
-    String url = 'http://192.168.8.100/users.json';
+    String url = 'http://192.168.43.217/users.json';
     final response = await client.get(url);
     print(response.body);
 
