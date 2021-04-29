@@ -28,7 +28,7 @@ class _CustomScrollState extends State<CustomScroll> {
         border: Border.all(width: 1.0, style: BorderStyle.none),
         borderRadius: BorderRadius.circular(0.0),
       ),
-      child: new RaisedButton(
+      child: new ElevatedButton(
         onPressed: () {
           if (_formKey.currentState.validate()) {
             setState(() {
@@ -46,7 +46,10 @@ class _CustomScrollState extends State<CustomScroll> {
           }
         },
         child: new Text('Login'),
-        color: Colors.green,
+        //color: Colors.green,
+        style: ButtonStyle(
+
+        ),
       ),
     );
 

@@ -5,10 +5,9 @@ class FirstTask extends StatefulWidget {
   _FirstTaskState createState() => _FirstTaskState();
 }
 
-enum Sex {Male, Female}
+enum Sex { Male, Female }
 
 class _FirstTaskState extends State<FirstTask> {
-  
   Sex _groupV = Sex.Male;
   bool _checked1 = false;
   bool _checked2 = false;
@@ -19,18 +18,15 @@ class _FirstTaskState extends State<FirstTask> {
     double _width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form Page',
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.white70
-
-        ),),
+        title: Text(
+          'Form Page',
+          style: TextStyle(fontSize: 18, color: Colors.white70),
+        ),
         centerTitle: true,
         elevation: 0.0,
         backgroundColor: Colors.black,
       ),
-      body:
-      Container(
+      body: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         color: Colors.transparent,
         child: ListView(
@@ -43,10 +39,7 @@ class _FirstTaskState extends State<FirstTask> {
             Padding(
               padding: const EdgeInsets.all(1.0),
               child: Text('Name',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[800]
-              )),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[800])),
             ),
             Container(
               height: 40,
@@ -59,12 +52,9 @@ class _FirstTaskState extends State<FirstTask> {
               child: TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Leonard',
-                  hintStyle: TextStyle(
-                    color: Colors.grey[500]
-                  ),
+                  hintStyle: TextStyle(color: Colors.grey[500]),
                   border: InputBorder.none,
                 ),
-
               ),
             ),
             SizedBox(
@@ -73,29 +63,23 @@ class _FirstTaskState extends State<FirstTask> {
             Padding(
               padding: const EdgeInsets.all(1.0),
               child: Text('Email',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[800]
-                  )),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[800])),
             ),
             Container(
               height: 40,
               padding: EdgeInsets.only(left: 5.0),
               decoration: BoxDecoration(
                   border: Border.all(
-                style: BorderStyle.solid,
-                color: Colors.grey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(7.0)),
+                    style: BorderStyle.solid,
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(7.0)),
               child: TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'noumba@example.com',
-                    hintStyle: TextStyle(
-                        color: Colors.grey[500]
-                    ),
-                  border: InputBorder.none
-                ),
+                    hintText: 'noumba@example.com',
+                    hintStyle: TextStyle(color: Colors.grey[500]),
+                    border: InputBorder.none),
               ),
             ),
             Column(
@@ -105,25 +89,32 @@ class _FirstTaskState extends State<FirstTask> {
                   widthFactor: 9.0,
                   child: Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: Text('Sex',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),),
+                    child: Text(
+                      'Sex',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Radio(value: Sex.Male, groupValue: _groupV,
-                        onChanged: (Sex value){
+                    Radio(
+                        value: Sex.Male,
+                        groupValue: _groupV,
+                        onChanged: (Sex value) {
                           setState(() {
                             _groupV = value;
                           });
                         }),
                     Text('Male'),
-                    Radio(value: Sex.Female, groupValue: _groupV,
-                        onChanged: (Sex value){
+                    Radio(
+                        value: Sex.Female,
+                        groupValue: _groupV,
+                        onChanged: (Sex value) {
                           setState(() {
                             _groupV = value;
                           });
@@ -142,36 +133,43 @@ class _FirstTaskState extends State<FirstTask> {
                     indent: 40,
                     endIndent: 40,
                   ),
-                  SizedBox(height: 10.0,),
-                  Text('Select Favorite Courses',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'sans-serif-light',
-                    fontWeight: FontWeight.bold,
-                  ),),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    'Select Favorite Courses',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'sans-serif-light',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Column(
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text('CSC207'),
-                          Checkbox(value: _checked1, onChanged: (value){
-                            setState(() {
-                              _checked1 = !_checked1;
-                            });
-                          }),
+                          Checkbox(
+                              value: _checked1,
+                              onChanged: (value) {
+                                setState(() {
+                                  _checked1 = !_checked1;
+                                });
+                              }),
                         ],
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text('CSC407'),
-                          Checkbox(value: _checked2, onChanged:(value){
-                            setState(() {
-                              _checked2 = !_checked2;
-                            });
-                          }),
+                          Checkbox(
+                              value: _checked2,
+                              onChanged: (value) {
+                                setState(() {
+                                  _checked2 = !_checked2;
+                                });
+                              }),
                         ],
                       ),
                       Row(
@@ -191,27 +189,31 @@ class _FirstTaskState extends State<FirstTask> {
                   ),
                 ],
               ),
-
             ),
             SizedBox(
               height: 10.0,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: _width,),
+              padding: EdgeInsets.symmetric(
+                horizontal: _width,
+              ),
               height: 40,
-              child: RaisedButton(
-                onPressed: (){},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(Colors.black54)),
+                child: Text(
+                  'Submit',
+                  style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
                 ),
-                color: Colors.black54,
-                child: Text('Submit',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold
-                ),),
-
               ),
             )
           ],

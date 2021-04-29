@@ -122,8 +122,7 @@ class _AddFriendState extends State<AddFriend> {
                 SizedBox(
                   height: 24,
                 ),
-                RaisedButton(
-                  padding: EdgeInsets.all(10),
+                ElevatedButton(
                   onPressed: () {
                     if (!_formkey.currentState.validate()) {
                       return 'Failed';
@@ -143,8 +142,11 @@ class _AddFriendState extends State<AddFriend> {
                     Navigator.pop(context);
                     print('Success');
                   },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))
+                    ))
                   ),
                   child: Text(
                     'AddFriend',

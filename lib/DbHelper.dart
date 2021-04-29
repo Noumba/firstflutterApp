@@ -197,6 +197,7 @@ class SQLiteDbProvider {
     List<Map> results = await db.query("Product",
         /*columns: ProductCard.columns,*/ orderBy: "id DESC");
 
+    // ignore: deprecated_member_use
     List<ProductCard> products = new List();
     results.forEach((result) {
       ProductCard product = ProductCard.fromMap(result);
@@ -213,6 +214,7 @@ class SQLiteDbProvider {
     List<Map> results = await db.query("Product", where: "user_id = ?", whereArgs: [id],
         /*columns: ProductCard.columns,*/ orderBy: "id DESC");
 
+  // ignore: deprecated_member_use
   List<ProductCard> products = new List();
   results.forEach((result) {
   ProductCard product = ProductCard.fromMap(result);
@@ -303,6 +305,7 @@ class SQLiteDbProvider {
     print(_name);
     /*List<Map> result = await db.query("Users", where: "username = ? and password = ? " , whereArgs: [_name, _password]);*/
     List<Map> result = await db.query("Users", where: "username = ? and password = ? " , whereArgs: [_name, _password]);
+      // ignore: deprecated_member_use
       List<UserReal> users = new List();
       result.forEach((result) {
         UserReal user = UserReal.fromMap(result);
@@ -349,6 +352,7 @@ class SQLiteDbProvider {
     List<Map> results = await db.query("Friends", where: "uid = ?", whereArgs: [id],
         /*columns: ProductCard.columns,*/ orderBy: "id DESC");
 
+    // ignore: deprecated_member_use
     List<Friend> friends = new List();
     results.forEach((result) {
       Friend friend = Friend.fromMap(result);
@@ -381,6 +385,7 @@ class SQLiteDbProvider {
     List<Map> results = await db.query("Photos",
         /*columns: ProductCard.columns,*/ orderBy: "id DESC");
 
+    // ignore: deprecated_member_use
     List<Photo> photos = new List();
     results.forEach((result) {
       Photo photo = Photo.fromMap(result);

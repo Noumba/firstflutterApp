@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 import 'package:my_first_flutter_app/Photo.dart';
-import 'package:my_first_flutter_app/PictureModel.dart';
+//import 'package:my_first_flutter_app/PictureModel.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as pPath;
-import 'package:provider/provider.dart';
-import 'package:my_first_flutter_app/Pictures.dart';
+// import 'package:provider/provider.dart';
+// import 'package:my_first_flutter_app/Pictures.dart';
 
 
 class TakePicScreen extends StatefulWidget {
@@ -37,21 +37,21 @@ class _TakePicScreenState extends State<TakePicScreen> {
     final dbSavedImage = savedImage.path;
     //final db = FileImage(File(dbSavedImage));
 
-    var imageToStore = Picture(picName: savedImage);
+    //var imageToStore = Picture(picName: savedImage);
     var imageToStoreInDB = Photo(dbSavedImage);
     dbHelper.insertPhoto(imageToStoreInDB);
 
-    _storeImage(){
-      Provider.of<Pictures>(context, listen: false).storeImage(imageToStore);
-    }
-
-    _storeImage();
+    // _storeImage(){
+    //   Provider.of<Pictures>(context, listen: false).storeImage(imageToStore);
+    // }
+    //
+    // _storeImage();
   }
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: FlatButton.icon(onPressed: _takePicture,
+        child: ElevatedButton.icon(onPressed: _takePicture,
             icon: Icon(Icons.photo_camera, size: 100, color: Colors.blue,),
             label: Text('')),
       ),

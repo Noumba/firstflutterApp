@@ -58,12 +58,15 @@ class _FeedbackPageState extends State<FeedbackPage> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: _width,),
               height: 40,
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: (){},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.0),
+                  ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(Colors.black54)
                 ),
-                color: Colors.black54,
                 child: Text('Send',
                   style: TextStyle(
                       color: Colors.white70,

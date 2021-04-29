@@ -4,6 +4,7 @@ import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/FirstTaskForm.da
 import 'package:my_first_flutter_app/DataTable.dart';
 import 'package:my_first_flutter_app/FeedbackPage.dart';
 import 'package:my_first_flutter_app/Jsondata.dart';
+import 'package:my_first_flutter_app/Location.dart';
 import 'package:my_first_flutter_app/UserModel.dart';
 import 'package:my_first_flutter_app/Notification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -235,6 +236,7 @@ class _AfterSplashState extends State<AfterSplash> {
                             minWidth: 170.0,
                             highlightColor: Colors.transparent,
                             child: Container(child: Text('Profile'))),
+                        // ignore: deprecated_member_use
                         FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/about');
@@ -285,6 +287,7 @@ class _AfterSplashState extends State<AfterSplash> {
                     ),
                     Column(
                       children: [
+                        // ignore: deprecated_member_use
                         FlatButton(
                             onPressed: () {},
                             padding: EdgeInsets.fromLTRB(0.0, 0.0, 85.0, 0.0),
@@ -456,6 +459,27 @@ class _AfterSplashState extends State<AfterSplash> {
                     },
                     child: Text('Take Photo'),
                     color: Colors.grey[200],
+                  )),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        style: BorderStyle.none,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(0.0)),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => GeoLocation()));
+                    },
+                    child: Text('Location'),
+                    style: ButtonStyle(
+
+                    ),
+
                   )),
             ],
           ),

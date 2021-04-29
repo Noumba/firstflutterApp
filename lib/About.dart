@@ -143,20 +143,23 @@ class AboutUs extends StatelessWidget {
                                 SizedBox(
                                   height: 25.0,
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {},
-                                  textTheme: ButtonTextTheme.accent,
-                                  color: Colors.pink[50],
-                                  colorBrightness: Brightness.light,
+                                  // textTheme: ButtonTextTheme.accent,
+                                  // color: Colors.pink[50],
+                                  // colorBrightness: Brightness.light,
                                   child: Text(
                                     'Learn more',
                                     style: TextStyle(
                                       color: Colors.pinkAccent,
                                     ),
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero,
-                                      side: BorderSide(color: Colors.pink)),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                        side: BorderSide(color: Colors.pink)),),
+                                    backgroundColor: MaterialStateProperty.all(Colors.pink[50]),
+                                  ),
                                 ),
                               ],
                             ),
@@ -217,20 +220,23 @@ class AboutUs extends StatelessWidget {
                                 SizedBox(
                                   height: 25.0,
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {},
-                                  textTheme: ButtonTextTheme.accent,
-                                  color: Colors.pink[50],
-                                  colorBrightness: Brightness.light,
+                                  // textTheme: ButtonTextTheme.accent,
+                                  // color: Colors.pink[50],
+                                  // colorBrightness: Brightness.light,
                                   child: Text(
                                     'Learn more',
                                     style: TextStyle(
                                       color: Colors.pinkAccent,
                                     ),
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero,
-                                      side: BorderSide(color: Colors.pink)),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                        side: BorderSide(color: Colors.pink)),),
+                                    backgroundColor: MaterialStateProperty.all(Colors.pink[50]),
+                                  ),
                                 ),
                               ],
                             ),
@@ -291,20 +297,23 @@ class AboutUs extends StatelessWidget {
                                 SizedBox(
                                   height: 25.0,
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {},
-                                  textTheme: ButtonTextTheme.accent,
-                                  color: Colors.pink[50],
-                                  colorBrightness: Brightness.light,
+                                  // textTheme: ButtonTextTheme.accent,
+                                  // color: Colors.pink[50],
+                                  // colorBrightness: Brightness.light,
                                   child: Text(
                                     'Learn more',
                                     style: TextStyle(
                                       color: Colors.pinkAccent,
                                     ),
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero,
-                                      side: BorderSide(color: Colors.pink)),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                        side: BorderSide(color: Colors.pink)),),
+                                    backgroundColor: MaterialStateProperty.all(Colors.pink[50]),
+                                  ),
                                 ),
                               ],
                             ),

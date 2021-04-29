@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
 //import 'package:provider/provider.dart';
@@ -11,7 +14,6 @@ class ViewImages extends StatefulWidget {
 }
 
 class _ViewImagesState extends State<ViewImages> {
-
   SQLiteDbProvider dbHelper;
   @override
   void initState() {
@@ -19,20 +21,29 @@ class _ViewImagesState extends State<ViewImages> {
     super.initState();
     dbHelper = SQLiteDbProvider();
   }
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder<List<Photo>>(
-      future: dbHelper.getAllPhotos(),
-        builder: (context, photos){
-          if(photos.hasData){
+        future: dbHelper.getAllPhotos(),
+        builder: (context, photos) {
+          if (photos.hasData) {
             return new GridView.builder(
                 itemCount: photos.data.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 150.0,
                 ),
-                itemBuilder: (context, index){
+                itemBuilder: (context, index) {
                   var image = File(photos.data[index].photoName);
-                  return new ImageItem(image);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HeroDestination(image)));
+                    },
+                    child: Hero(tag: 'photoHero' + image.toString(), child: new ImageItem(image)),
+                  );
                 });
           }
           return new Container(
@@ -42,7 +53,6 @@ class _ViewImagesState extends State<ViewImages> {
         });
   }
 }
-
 
 // class ViewImages extends StatefulWidget {
 //   @override
@@ -72,9 +82,8 @@ class ImageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(1.0),
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white, boxShadow: const [BoxShadow(blurRadius: 10)]),
@@ -84,6 +93,48 @@ class ImageItem extends StatelessWidget {
         child: Image.file(
           photoName,
           fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+}
+
+class HeroDestination extends StatelessWidget {
+  final File photoName;
+  HeroDestination(this.photoName);
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoApp(
+      home: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          backgroundColor: Colors.transparent,
+          leading: CupertinoButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            padding: EdgeInsets.only(bottom: 4.0),
+            child: Icon(CupertinoIcons.back),
+          ),
+          middle: Text('Hero Destination'),
+          trailing: CupertinoButton(
+            onPressed: () {},
+            padding: EdgeInsets.only(bottom: 4.0),
+            child: Icon(CupertinoIcons.settings),
+          ),
+        ),
+        child: Center(
+          child: Hero(
+            tag: 'photoHero' + photoName.toString(),
+            child: Container(
+              padding: EdgeInsets.all(0.0),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Image.file(
+                photoName,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
         ),
       ),
     );

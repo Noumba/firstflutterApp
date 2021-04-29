@@ -111,7 +111,7 @@ class _RegistrationState extends State<Registration> {
                 shape: RoundedRectangleBorder(side: BorderSide(color: Colors.teal)),),*/
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       if (_formkey.currentState.validate()) {
 
@@ -133,9 +133,11 @@ class _RegistrationState extends State<Registration> {
                       /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/
                     },
                     child: Text('Register'),
-                    padding: EdgeInsets.all(5.0),
-                    color: Colors.blue,
-                    minWidth: 5.0,
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.all(5.0)),
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
+                      minimumSize: MaterialStateProperty.all(Size(5.0, 10.0))
+                    ),
                   ),
                 )
               ],

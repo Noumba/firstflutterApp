@@ -137,7 +137,7 @@ class _AddProductState extends State<AddProduct> {
                 shape: RoundedRectangleBorder(side: BorderSide(color: Colors.teal)),),*/
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                         if (_formkey.currentState.validate()) {
 
@@ -158,9 +158,13 @@ class _AddProductState extends State<AddProduct> {
                       /*Navigator.push(context, MaterialPageRoute(builder: (context) => ProductList())).then((value) {});*/
                     },
                     child: Text('ADD'),
-                    padding: EdgeInsets.all(5.0),
-                    color: Colors.blue,
-                    minWidth: 5.0,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(5.0)),
+                      minimumSize: MaterialStateProperty.all(Size(
+                        5.0,10.0
+                      ))
+                    ),
                   ),
                 )
               ],

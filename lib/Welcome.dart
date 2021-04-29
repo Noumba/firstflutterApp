@@ -17,34 +17,38 @@ class Welcome extends StatelessWidget {
               Container(
                 color: Colors.transparent,
                 width: 60,
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  padding: EdgeInsets.all(0.0),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
+                    backgroundColor: MaterialStateProperty.all(Colors.orange),
+                    elevation: MaterialStateProperty.all(0.0)
+                  ),
                   child: Text('Register',
                   style: TextStyle(
                     color: Colors.orange,
                   ),),
-                  elevation: 0.0,
-                  color: Colors.transparent,
 
                 ),
               ),
               Container(
                 color: Colors.transparent,
                 width: 60,
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
-                  padding: EdgeInsets.all(8.0),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.all(8.0)),
+                    backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                    elevation: MaterialStateProperty.all(0.0)
+                  ),
                   child: Text('Login',
                   style: TextStyle(
                     color: Colors.orange,
                   ),),
-                  color: Colors.transparent,
-                  elevation: 0.0,
                 ),
               )
             ],

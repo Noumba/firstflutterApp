@@ -17,7 +17,9 @@ class LoginScreen extends StatefulWidget {
 
 enum LoginStatus { notSignIn, SignIn, SignInAsGuest }
 
-class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin
+    implements LoginCallback {
   String username, password;
   LoginStatus _loginStatus = LoginStatus.notSignIn;
   final _formKey = new GlobalKey<FormState>();
@@ -35,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
   }
 
   void _showSnackBar(String text) {
+    // ignore: deprecated_member_use
     scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(text),
     ));
@@ -82,12 +85,18 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
       case LoginStatus.notSignIn:
         var loginBtn = new Container(
           height: 40,
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.4,
           decoration: BoxDecoration(
             border: Border.all(width: 1.0, style: BorderStyle.none),
             borderRadius: BorderRadius.circular(0.0),
           ),
-          child: new RaisedButton(
+          child: new ElevatedButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+        ),),
+              backgroundColor: MaterialStateProperty.all(Colors.green)
+            ),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 setState(() {
@@ -105,18 +114,93 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
               }
             },
             child: new Text('Login'),
-            color: Colors.green,
           ),
         );
 
+        var guestloginbtn = new Container(
+          height: 40,
+          width: MediaQuery.of(context).size.width * 0.65,
+          child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),),
+                elevation: MaterialStateProperty.all(0.0),
+                backgroundColor: MaterialStateProperty.all(Colors.green)
+              ),
+              onPressed: () {
+                _loginStatus = LoginStatus.SignInAsGuest;
+                print(_loginStatus);
+                setState(() {});
+              },
+              child: Text(
+                'Guest',
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              )),
+        );
+
         var loginForm2 = CustomScrollView(slivers: <Widget>[
+          SliverAppBar(
+            title: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              child: Text(
+                'daVinci',
+                textDirection: TextDirection.ltr,
+                softWrap: true,
+                style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 24,
+                    fontStyle: FontStyle.normal,
+                    fontFamily: 'sans-serif'),
+              ),
+            ),
+            // expandedHeight: MediaQuery.of(context).size.height * 0.2,
+            // collapsedHeight: MediaQuery.of(context).size.height * 0.1,
+            excludeHeaderSemantics: true,
+            snap: true,
+            floating: true,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0.0)),
+            backgroundColor: MaterialColor(4048669772, <int, Color>{
+              300: Color(3707764736),
+              400: Color(4282557941),
+              600: Color(4048669772),
+            }),
+          ),
+          SliverAppBar(
+            // expandedHeight: MediaQuery.of(context).size.height * 0.2,
+            // collapsedHeight: MediaQuery.of(context).size.height * 0.1,
+            pinned: true,
+            toolbarHeight: 2.0,
+            bottom: TabBar(
+              controller: TabController(
+                vsync: this,
+                initialIndex: 0,
+                length: 3,
+              ),
+              tabs: [
+                Tab(child: Text('tab1')),
+                Tab(child: Text('tab2')),
+                Tab(child: Text('tab3')),
+              ],
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0.0)),
+            backgroundColor: MaterialColor(4048669772, <int, Color>{
+              300: Color(3707764736),
+              400: Color(4282557941),
+              600: Color(4048669772),
+            }),
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Align(
                   heightFactor: 2.0,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -132,10 +216,11 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                   child: new Form(
                       key: _formKey,
                       child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           new Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 15),
                             child: new TextFormField(
                               controller: _nameController,
                               validator: (String value) {
@@ -152,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                             ),
                           ),
                           new Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 15),
                             child: new TextFormField(
                               controller: _passwordController,
                               validator: (String value) {
@@ -198,6 +283,10 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Align(child: guestloginbtn),
                 )
               ],
             ),
@@ -295,31 +384,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
         //   return true;
         // }
         return new Scaffold(
-          appBar: new AppBar(
-            title: Text('Login Page'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                    onPressed: (){
-                      _loginStatus = LoginStatus.SignInAsGuest;
-                      print(_loginStatus);
-                      setState(() {
-
-                      });
-                    },
-                    elevation: 5.0,
-                    color: Colors.transparent,
-                    child: Text(
-                      'Guest',
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white70),
-                    )),
-              )
-            ],
-          ),
           key: scaffoldKey,
           body: loginForm2,
         );
@@ -354,7 +418,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginCallback {
       case LoginStatus.SignInAsGuest:
         UserReal _user = UserReal(null, 'Guest', null, null, null);
         dbHelper.saveUser(_user);
-        if(_user != null){
+        if (_user != null) {
           return Container(child: AfterSplash(_user, _loginStatus));
         }
         break;
