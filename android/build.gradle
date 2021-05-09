@@ -2,6 +2,9 @@ buildscript {
     ext.kotlin_version = '1.4.32'
     repositories {
         google()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         jcenter()
     }
 
@@ -15,9 +18,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        maven{
-            url 'https://maven.gppgle.com'
-        }
         jcenter()
     }
 }

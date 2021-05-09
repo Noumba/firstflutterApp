@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/CameraPage.dart';
+import 'package:my_first_flutter_app/CovidTracker.dart';
 import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/FirstTaskForm.dart';
 import 'package:my_first_flutter_app/DataTable.dart';
 import 'package:my_first_flutter_app/FeedbackPage.dart';
@@ -146,6 +147,7 @@ class _AfterSplashState extends State<AfterSplash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         actions: [
           popUpNotifications(),
@@ -227,24 +229,26 @@ class _AfterSplashState extends State<AfterSplash> {
                     ),
                     Column(
                       children: [
-                        FlatButton(
+                        ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/ninja');
                             },
-                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0),
-                            color: Colors.transparent,
-                            minWidth: 170.0,
-                            highlightColor: Colors.transparent,
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0)),
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
+                            ),
                             child: Container(child: Text('Profile'))),
                         // ignore: deprecated_member_use
-                        FlatButton(
+                        TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/about');
                             },
-                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0),
-                            color: Colors.transparent,
-                            minWidth: 170.0,
-                            highlightColor: Colors.blue,
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0)),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
+                            ),
                             child: Container(child: Text('About'))),
                       ],
                     ),
@@ -327,17 +331,18 @@ class _AfterSplashState extends State<AfterSplash> {
                     ),
                     Column(
                       children: [
-                        FlatButton(
+                        TextButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => FeedbackPage()));
                             },
-                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 57.0, 0.0),
-                            color: Colors.transparent,
-                            minWidth: 170.0,
-                            highlightColor: Colors.transparent,
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 57.0, 0.0)),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
+                            ),
                             child: Container(child: Text('Feedback'))),
                       ],
                     ),
@@ -394,13 +399,15 @@ class _AfterSplashState extends State<AfterSplash> {
                     border: Border.all(width: 1.0, style: BorderStyle.none),
                     borderRadius: BorderRadius.circular(0.0),
                   ),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => FirstTask()));
                     },
                     child: Text('Simple Form'),
-                    color: Colors.grey[500],
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey[800])
+                    ),
                   )),
               SizedBox(
                 height: 10,
@@ -413,7 +420,7 @@ class _AfterSplashState extends State<AfterSplash> {
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(0.0)),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -421,7 +428,9 @@ class _AfterSplashState extends State<AfterSplash> {
                               builder: (context) => DataTablePage()));
                     },
                     child: Text('Data Table'),
-                    color: Colors.grey[400],
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[700])
+                    ),
                   )),
               SizedBox(
                 height: 10,
@@ -434,13 +443,15 @@ class _AfterSplashState extends State<AfterSplash> {
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(0.0)),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
 
                       Navigator.push(context, MaterialPageRoute(builder: (context) => NamesJson()));
                     },
                     child: Text('Json Data'),
-                    color: Colors.grey[300],
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[600])
+                    ),
                   )),
               SizedBox(
                 height: 10,
@@ -453,12 +464,14 @@ class _AfterSplashState extends State<AfterSplash> {
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(0.0)),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage()));
                     },
                     child: Text('Take Photo'),
-                    color: Colors.grey[200],
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey[500],)
+                    ),
                   )),
               SizedBox(
                 height: 10,
@@ -477,9 +490,29 @@ class _AfterSplashState extends State<AfterSplash> {
                     },
                     child: Text('Location'),
                     style: ButtonStyle(
-
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[400],)
                     ),
 
+                  )),
+              Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        style: BorderStyle.none,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(0.0)),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CovidTracker()));
+                    },
+                    child: Text('Covid-19 Tracker'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[700])
+                    ),
                   )),
             ],
           ),

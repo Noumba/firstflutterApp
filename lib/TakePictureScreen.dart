@@ -52,6 +52,10 @@ class _TakePicScreenState extends State<TakePicScreen> {
     return Container(
       child: Center(
         child: ElevatedButton.icon(onPressed: _takePicture,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white70),
+              elevation: MaterialStateProperty.all(0.0),
+            ),
             icon: Icon(Icons.photo_camera, size: 100, color: Colors.blue,),
             label: Text('')),
       ),

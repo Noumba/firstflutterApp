@@ -131,43 +131,51 @@ class _NinjaIDState extends State<NinjaID> {
                       Icons.person_pin,
                       color: Colors.lightBlue,
                     ),
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/ninja');
                         },
-                        color: Colors.white,
-                        minWidth: 150.0,
-                        highlightColor: Colors.blue,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          minimumSize: MaterialStateProperty.all(Size(150.0, 30.0))
+                        ),
                         child: Text('Profile')),
                   ],
                 ),
               ),
               ListTile(
-                leading: FlatButton(
+                // ignore: deprecated_member_use
+                leading: TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/friends');
                     },
-                    color: Colors.grey[200],
-                    minWidth: 150.0,
-                    highlightColor: Colors.blue,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                        minimumSize: MaterialStateProperty.all(Size(150.0, 30.0))
+                    ),
                     child: Text('Friends')),
               ),
               ListTile(
-                leading: FlatButton(
+                leading: TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/about');
                     },
-                    color: Colors.grey[200],
-                    minWidth: 150.0,
-                    highlightColor: Colors.blue,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                        minimumSize: MaterialStateProperty.all(Size(150.0, 30.0))
+                    ),
+                    // color: Colors.grey[200],
+                    // minWidth: 150.0,
+                    // highlightColor: Colors.blue,
                     child: Text('About Us')),
               ),
               ListTile(
-                leading: FlatButton(
+                leading: TextButton(
                     onPressed: () {},
-                    color: Colors.grey[200],
-                    minWidth: 150.0,
-                    highlightColor: Colors.blue,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                        minimumSize: MaterialStateProperty.all(Size(150.0, 30.0))
+                    ),
                     child: Text(
                       'Contact Us',
                       style: TextStyle(
@@ -602,48 +610,56 @@ class _ProductListState extends State<ProductList>
                   ),
                   Column(
                     children: [
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/ninja');
                           },
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0),
-                          color: Colors.transparent,
-                          minWidth: 170.0,
-                          highlightColor: Colors.transparent,
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0)),
+                            padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0))
+                          ),
+                          // padding: EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0),
+                          // color: Colors.transparent,
+                          // minWidth: 170.0,
+                          // highlightColor: Colors.transparent,
                           child: Container(child: Text('Profile'))),
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsPage(widget._user.id)));
                           },
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0),
-                          color: Colors.transparent,
-                          minWidth: 170.0,
-                          highlightColor: Colors.blue,
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0)),
+                              padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0))
+                          ),
                           child: Container(child: Text('Friends'))),
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/about');
                           },
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0),
-                          color: Colors.transparent,
-                          minWidth: 170.0,
-                          highlightColor: Colors.blue,
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0)),
+                              padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0))
+                          ),
                           child: Container(child: Text('About'))),
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/task_form');
                           },
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0),
-                          color: Colors.transparent,
-                          minWidth: 170.0,
-                          highlightColor: Colors.blue,
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0)),
+                              padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0))
+                          ),
                           child: Container(child: Text('Contact us'))),
                     ],
                   ),
                 ],
               ),
 
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     if(_loginStatus == LoginStatus.SignIn){
                       signOut();
@@ -652,10 +668,11 @@ class _ProductListState extends State<ProductList>
                       Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                     }
                   },
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0),
-                  color: Colors.transparent,
-                  minWidth: 170.0,
-                  highlightColor: Colors.blue,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                      minimumSize: MaterialStateProperty.all(Size(170.0, 30.0)),
+                      padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 52.0, 0.0))
+                  ),
                   child: Container(child: Text('Sign Out'))),
 
             ],
