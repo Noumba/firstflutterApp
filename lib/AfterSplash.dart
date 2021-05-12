@@ -494,6 +494,9 @@ class _AfterSplashState extends State<AfterSplash> {
                     ),
 
                   )),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                   height: 40,
                   decoration: BoxDecoration(
