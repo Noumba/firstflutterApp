@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class CovidTracker extends StatefulWidget {
   @override
@@ -68,17 +70,27 @@ class _CovidTrackerState extends State<CovidTracker> {
                     'Worldwide',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(15.0)),
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'Regional',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CountryStats(
+                                    countryData: countryData,
+                                  )));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(15.0)),
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'AFRICA',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   )
                 ],
@@ -100,6 +112,18 @@ class _CovidTrackerState extends State<CovidTracker> {
                     countryData: countryData,
                   ),
             InfoPanel(),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                'WE ARE TOGETHER IN THIS FIGHT',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
@@ -195,8 +219,10 @@ class MostAffectedCountries extends StatelessWidget {
   int sortByDeaths(b, a) {
     if (b["deaths"] > a["deaths"])
       return -1;
-    else if (b["deaths"] < a["deaths"]) return 1;
-    else return 0;
+    else if (b["deaths"] < a["deaths"])
+      return 1;
+    else
+      return 0;
   }
 
   @override
@@ -204,12 +230,13 @@ class MostAffectedCountries extends StatelessWidget {
     // countryData.sort(
     //     (b, a) => b["deaths"].toString().compareTo(a["deaths"].toString()));
     countryData.sort(sortByDeaths);
-    List newData = countryData.sublist(0,4);
+    List newData = countryData.sublist(0, 4);
     //List newData = countryData.getRange(0, 4);
     return Container(
       child: ListView.builder(
           itemCount: newData.isEmpty ? 0 : newData.length,
           shrinkWrap: true,
+          physics: RangeMaintainingScrollPhysics(),
           itemBuilder: (context, index) {
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -249,67 +276,85 @@ class InfoPanel extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            color: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'FAQS',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => FAQPage()));
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'FAQS',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            color: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'DONATE',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              launch(
+                  'https://www.who.int/emergencies/diseases/novel-coronavirus-2019/donate');
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'DONATE',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            color: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'MYTH BUSTERS',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              launch(
+                  'https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters');
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'MYTH BUSTERS',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -317,6 +362,174 @@ class InfoPanel extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class FAQPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('FAQs'),
+        backgroundColor: Colors.black54,
+        centerTitle: true,
+      ),
+      body: ListView.builder(
+          itemCount: DataSearch.questionAnswers.length,
+          itemBuilder: (context, index) {
+            return ExpansionTile(
+              title: Text(
+                DataSearch.questionAnswers[index]["question"],
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(DataSearch.questionAnswers[index]["answer"]),
+                )
+              ],
+            );
+          }),
+    );
+  }
+}
+
+class CountryStats extends StatefulWidget {
+  final List countryData;
+
+  const CountryStats({Key key, this.countryData}) : super(key: key);
+  @override
+  _CountryStatsState createState() => _CountryStatsState();
+}
+
+class _CountryStatsState extends State<CountryStats> {
+  // List countryData;
+  // fetchCountryData() async {
+  //   http.Response response =
+  //       await http.get('https://disease.sh/v3/covid-19/countries');
+  //   setState(() {
+  //     countryData = jsonDecode(response.body);
+  //   });
+  // }
+
+  int sortByDeaths(b, a) {
+    if (b["deaths"] > a["deaths"])
+      return -1;
+    else if (b["deaths"] < a["deaths"])
+      return 1;
+    else
+      return 0;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //fetchCountryData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    widget.countryData.sort(sortByDeaths);
+    List newData = widget.countryData;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('COUNTRY STATS'),
+        backgroundColor: Colors.black54,
+        centerTitle: false,
+      ),
+      body: ListView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(10.0),
+          itemCount: newData == null ? 0 : newData.length,
+          itemBuilder: (context, index) {
+            return widget.countryData.isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : newData[index]["continent"] == "Africa"
+                    ? Container(
+                        height: 100,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: Center(
+                                    child: Text(
+                                      newData[index]["country"],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Image.network(
+                                  newData[index]["countryInfo"]["flag"],
+                                  height: 40,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 25.0,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'CONFIRMED: ' +
+                                      newData[index]["cases"].toString(),
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'ACTIVE: ' +
+                                      newData[index]["active"].toString(),
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'RECOVERED: ' +
+                                      newData[index]["recovered"].toString(),
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'DEATHS: ' +
+                                      newData[index]["deaths"].toString(),
+                                  style: TextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    : Container();
+          }),
     );
   }
 }

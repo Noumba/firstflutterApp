@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:my_first_flutter_app/MessageModel.dart';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -67,6 +68,12 @@ class SQLiteDbProvider {
       await db.execute("CREATE TABLE Photos ("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
           "photoName TEXT"
+          ")");
+      await db.execute("CREATE TABLE Messages ("
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+          "textMessage TEXT,"
+          "type TEXT,"
+          "isMe INTEGER"
           ")");
 
       await db.execute(
@@ -394,6 +401,25 @@ class SQLiteDbProvider {
     print('All Photos are ready');
 
     return photos;
+  }
+
+  insertTextMessage(Messages textMessage) async {
+    final db = await database;
+    var result = await db.insert('Messages', textMessage.toMap());
+    print('Message Send Success');
+    return result;
+  }
+
+  Future<List<Messages>> getAllMessages() async{
+    final db = await database;
+    List<Map> results = await db.query("Messages", orderBy: "id ASC");
+    // ignore: deprecated_member_use
+    List<Messages> messages = new List();
+    results.forEach((result) {
+      Messages message = Messages.fromMap(result);
+      messages.add(message);
+    });
+    return messages;
   }
 
 }

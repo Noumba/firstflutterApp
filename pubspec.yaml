@@ -21,6 +21,14 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_smart_reply: ^0.0.2
+  random_words: ^1.0.2
+  smart_reply: ^0.0.1
+  flutter_keyboard_visibility: ^4.0.6
+  flutter_emoji: ^2.2.1+1
+  emojis: ^0.9.3
+  emoji_picker: ^0.1.0
+  url_launcher: ^5.7.10
   location: ^3.2.4
   geolocator: ^5.3.2+2
   google_maps_flutter: ^0.5.27+1

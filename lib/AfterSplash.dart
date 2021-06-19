@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/CameraPage.dart';
+import 'package:my_first_flutter_app/ChatScreen.dart';
 import 'package:my_first_flutter_app/CovidTracker.dart';
 import 'file:///C:/Users/user/Desktop/firstflutterApp/lib/Forms/FirstTaskForm.dart';
 import 'package:my_first_flutter_app/DataTable.dart';
@@ -14,8 +15,8 @@ import 'package:my_first_flutter_app/Login_screen.dart';
 // import 'package:my_first_flutter_app/Pictures.dart';
 
 class AfterSplash extends StatefulWidget {
-   final UserReal _user;
-   final LoginStatus _loginStatus;
+  final UserReal _user;
+  final LoginStatus _loginStatus;
   AfterSplash(this._user, this._loginStatus);
   @override
   _AfterSplashState createState() => _AfterSplashState();
@@ -26,8 +27,8 @@ class _AfterSplashState extends State<AfterSplash> {
   List<NotificationDetails> names = [
     NotificationDetails(
         'Noumba Leonard', 'updated his timeline and many people are liking it'),
-    NotificationDetails(
-        'Chiatial Calson', 'updated his timeline and many people are liking it'),
+    NotificationDetails('Chiatial Calson',
+        'updated his timeline and many people are liking it'),
     NotificationDetails(
         'Cute Stephany', 'updated his timeline and many people are liking it'),
     NotificationDetails(
@@ -57,16 +58,15 @@ class _AfterSplashState extends State<AfterSplash> {
               color: Colors.white,
             ),
             new Positioned(
-              right: -1,
+                right: -1,
                 top: 0,
                 child: new Container(
                   width: 18.0,
                   height: 18.0,
                   padding: EdgeInsets.all(1.0),
                   decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(14.0)
-                  ),
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(14.0)),
                   constraints: BoxConstraints(
                     maxHeight: 14.0,
                     maxWidth: 14.0,
@@ -88,50 +88,50 @@ class _AfterSplashState extends State<AfterSplash> {
           for (var i = 0; i < names.length; i++) {
             menuItem.add(PopupMenuItem(
                 child: Row(
-                  children: [
-                  new Container(
-                    child: new Image(
+              children: [
+                new Container(
+                  child: new Image(
                     image: new ExactAssetImage('asset/pic2.jpg'),
                     height: 40,
                     width: 40,
                     fit: BoxFit.cover,
                   ),
                 ),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: new Column(
-                      //mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Align(
-                          alignment:Alignment.topLeft ,
-                          child: new Text(names[i].name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Container(
-                          //padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                          //width: 150,
-                          child: new Text(names[i].notedetails,
-                            maxLines: 1,
-                            softWrap: true,
-                            textWidthBasis: TextWidthBasis.longestLine,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ),
-                      ],
-                    ),
+                SizedBox(
+                  width: 5.0,
                 ),
-                ],
-              )));
-            menuItem.add(
-              const PopupMenuDivider()
-            );
+                new Expanded(
+                  child: new Column(
+                    //mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: new Text(
+                          names[i].name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Container(
+                        //padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        //width: 150,
+                        child: new Text(
+                          names[i].notedetails,
+                          maxLines: 1,
+                          softWrap: true,
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )));
+            menuItem.add(const PopupMenuDivider());
           }
           return menuItem;
         });
@@ -234,10 +234,12 @@ class _AfterSplashState extends State<AfterSplash> {
                               Navigator.pushNamed(context, '/ninja');
                             },
                             style: ButtonStyle(
-                              padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0)),
-                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                              minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
-                            ),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 75.0, 0.0)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                                minimumSize: MaterialStateProperty.all(
+                                    Size(170.0, 30.0))),
                             child: Container(child: Text('Profile'))),
                         // ignore: deprecated_member_use
                         TextButton(
@@ -245,10 +247,12 @@ class _AfterSplashState extends State<AfterSplash> {
                               Navigator.pushNamed(context, '/about');
                             },
                             style: ButtonStyle(
-                                padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0)),
-                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                                minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
-                            ),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 80.0, 0.0)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                                minimumSize: MaterialStateProperty.all(
+                                    Size(170.0, 30.0))),
                             child: Container(child: Text('About'))),
                       ],
                     ),
@@ -339,42 +343,45 @@ class _AfterSplashState extends State<AfterSplash> {
                                       builder: (context) => FeedbackPage()));
                             },
                             style: ButtonStyle(
-                                padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(0.0, 0.0, 57.0, 0.0)),
-                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                                minimumSize: MaterialStateProperty.all(Size(170.0, 30.0))
-                            ),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 57.0, 0.0)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                                minimumSize: MaterialStateProperty.all(
+                                    Size(170.0, 30.0))),
                             child: Container(child: Text('Feedback'))),
                       ],
                     ),
                   ],
                 ),
-
                 ListTile(
                   tileColor: Colors.deepOrange[900],
                   contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 105.0, 0.0),
-                  onTap: (){
-                    if(_loginStatus == LoginStatus.SignInAsGuest){
+                  onTap: () {
+                    if (_loginStatus == LoginStatus.SignInAsGuest) {
                       print('SignOut Guest');
                       setState(() {
                         _loginStatus = LoginStatus.notSignIn;
                       });
-                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
-                    }else {
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/login', (route) => false);
+                    } else {
                       print('SignOut Real User');
                       signOut();
-                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/login', (route) => false);
                     }
                   },
-                  leading:
-                      Icon(
-                        Icons.logout,
-                        color: Colors.lightBlue[900],
-                      ),
-                  trailing: Container(child: Text('SignOut',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white70
-                  ),)),
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.lightBlue[900],
+                  ),
+                  trailing: Container(
+                      child: Text(
+                    'SignOut',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.white70),
+                  )),
                 )
               ],
             ),
@@ -406,8 +413,8 @@ class _AfterSplashState extends State<AfterSplash> {
                     },
                     child: Text('Simple Form'),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey[800])
-                    ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey[800])),
                   )),
               SizedBox(
                 height: 10,
@@ -429,8 +436,8 @@ class _AfterSplashState extends State<AfterSplash> {
                     },
                     child: Text('Data Table'),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey[700])
-                    ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey[700])),
                   )),
               SizedBox(
                 height: 10,
@@ -445,13 +452,13 @@ class _AfterSplashState extends State<AfterSplash> {
                       borderRadius: BorderRadius.circular(0.0)),
                   child: ElevatedButton(
                     onPressed: () {
-
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NamesJson()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => NamesJson()));
                     },
                     child: Text('Json Data'),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey[600])
-                    ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey[600])),
                   )),
               SizedBox(
                 height: 10,
@@ -466,12 +473,16 @@ class _AfterSplashState extends State<AfterSplash> {
                       borderRadius: BorderRadius.circular(0.0)),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CameraPage()));
                     },
                     child: Text('Take Photo'),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey[500],)
-                    ),
+                        backgroundColor: MaterialStateProperty.all(
+                      Colors.grey[500],
+                    )),
                   )),
               SizedBox(
                 height: 10,
@@ -486,13 +497,16 @@ class _AfterSplashState extends State<AfterSplash> {
                       borderRadius: BorderRadius.circular(0.0)),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => GeoLocation()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GeoLocation()));
                     },
                     child: Text('Location'),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey[400],)
-                    ),
-
+                        backgroundColor: MaterialStateProperty.all(
+                      Colors.grey[400],
+                    )),
                   )),
               SizedBox(
                 height: 10,
@@ -514,9 +528,35 @@ class _AfterSplashState extends State<AfterSplash> {
                     },
                     child: Text('Covid-19 Tracker'),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey[700])
-                    ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey[700])),
                   )),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        style: BorderStyle.none,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(0.0)),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen()));
+                    },
+                    child: Text('Chat Sessioin'),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey[600])),
+                  )),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),

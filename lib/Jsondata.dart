@@ -88,7 +88,7 @@ class _NamesJsonState extends State<NamesJson> {
                                 snapshot.data[index].lastName,
                                 style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               )),
                         ),

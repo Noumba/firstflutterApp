@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/DbHelper.dart';
@@ -42,7 +40,9 @@ class _ViewImagesState extends State<ViewImages> {
                           MaterialPageRoute(
                               builder: (context) => HeroDestination(image)));
                     },
-                    child: Hero(tag: 'photoHero' + image.toString(), child: new ImageItem(image)),
+                    child: Hero(
+                        tag: 'photoHero' + image.toString(),
+                        child: new ImageItem(image)),
                   );
                 });
           }
