@@ -21,7 +21,7 @@ import 'package:my_first_flutter_app/Pictures.dart';
 void main() => runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<Pictures>(
-          create: (_) => Pictures(),
+          create: (_) => Pictures(),  
         ),
       ],
       child: MaterialApp(
